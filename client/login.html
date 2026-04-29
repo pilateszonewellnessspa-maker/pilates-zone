@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login – Pilates Zone Wellness Spa</title>
+  <meta name="description"
+    content="Log in to your Pilates Zone account to access your dashboard, membership, and bookings." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gold: '#B8962E', 'gold-light': '#D4AF5A', 'gold-dark': '#8B6E1A',
+            cream: '#F5F0E8', 'cream-dark': '#EDE6D9', 'warm-gray': '#C5BEB0', charcoal: '#3A3530',
+          },
+          fontFamily: { display: ['Cormorant Garamond', 'serif'], body: ['Jost', 'sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --gold: #B8962E;
+      --gold-light: #D4AF5A;
+      --cream: #F5F0E8;
+      --cream-dark: #EDE6D9;
+      --charcoal: #3A3530;
+    }
+
+    body {
+      background-color: var(--cream);
+      color: var(--charcoal);
+      font-family: 'Jost', sans-serif;
+    }
+
+    .wave-bg {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .wave-bg::before,
+    .wave-bg::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.10;
+      background: var(--gold);
+    }
+
+    .wave-bg::before {
+      width: 70vw;
+      height: 70vw;
+      top: -20vw;
+      left: -15vw;
+    }
+
+    .wave-bg::after {
+      width: 50vw;
+      height: 50vw;
+      bottom: -10vw;
+      right: -10vw;
+    }
+
+    .gold-line {
+      width: 48px;
+      height: 2px;
+      background: var(--gold);
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: #fff;
+      font-family: 'Jost', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      padding: 14px 32px;
+      border-radius: 2px;
+      transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+
+    .btn-gold:hover {
+      background: #9a7c22;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(184, 150, 46, 0.28);
+    }
+
+    .form-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(184, 150, 46, 0.25);
+      border-radius: 2px;
+      padding: 12px 16px;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.9rem;
+      color: #3A3530;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .form-input:focus {
+      border-color: var(--gold);
+    }
+
+    .form-input::placeholder {
+      color: #9C937F;
+    }
+
+    footer {
+      background: #2A2520;
+      color: #C5BEB0;
+    }
+
+    .section-label {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    .alert-error {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #991b1b;
+      padding: 12px 16px;
+      border-radius: 2px;
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    .alert-success {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #166534;
+      padding: 12px 16px;
+      border-radius: 2px;
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── NAV ────────────────────────────────────────────────── -->
+  <nav class="py-4 px-6 md:px-12 bg-cream/95 backdrop-blur-sm shadow-sm">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <a href="index1.html" class="flex items-center gap-3 leading-none">
+        <img src="logo.png" alt="Pilates Zone Logo" style="width:40px;height:40px;object-fit:contain;flex-shrink:0;" />
+        <span class="flex flex-col">
+          <span class="font-display text-xl font-semibold tracking-wide" style="color:var(--gold)">PILATES ZONE</span>
+          <span class="font-body text-[0.6rem] tracking-[0.22em] uppercase" style="color:var(--charcoal)">Wellness
+            Spa</span>
+        </span>
+      </a>
+      <a href="signup.html" class="font-body text-xs tracking-widest uppercase hover:text-gold transition-colors">
+        Create Account →
+      </a>
+    </div>
+  </nav>
+
+  <!-- ── LOGIN FORM ─────────────────────────────────────────── -->
+  <main class="relative min-h-[calc(100vh-80px)] flex items-center justify-center py-16 px-6 overflow-hidden">
+    <div class="wave-bg"></div>
+
+    <div class="relative z-10 w-full max-w-md">
+
+      <!-- Header -->
+      <div class="text-center mb-10">
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <div class="gold-line"></div>
+          <span class="section-label">Member Access</span>
+          <div class="gold-line"></div>
+        </div>
+        <h1 class="font-display text-3xl md:text-4xl font-light" style="color:var(--charcoal)">
+          Welcome <em class="not-italic" style="color:var(--gold)">Back</em>
+        </h1>
+        <p class="font-body text-sm text-charcoal/60 mt-3">Sign in to access your membership dashboard</p>
+      </div>
+
+      <!-- Card -->
+      <div class="bg-white/70 backdrop-blur-sm rounded p-8 shadow-sm border border-gold/10">
+
+        <div id="loginError" class="alert-error"></div>
+        <div id="loginSuccess" class="alert-success"></div>
+
+        <form id="loginForm" class="space-y-5" novalidate>
+
+          <div>
+            <label class="font-body text-[0.65rem] uppercase tracking-widest text-charcoal/50 block mb-2">
+              Email Address
+            </label>
+            <input id="loginEmail" type="email" placeholder="your@email.com" class="form-input" required />
+          </div>
+
+          <div>
+            <label class="font-body text-[0.65rem] uppercase tracking-widest text-charcoal/50 block mb-2">
+              Password
+            </label>
+            <div class="relative">
+              <input id="loginPassword" type="password" placeholder="Enter your password" class="form-input" required />
+              <button type="button" onclick="togglePass('loginPassword',this)"
+                class="absolute right-3 top-1/2 -translate-y-1/2 text-charcoal/40 text-xs font-body uppercase tracking-widest hover:text-gold transition-colors">
+                Show
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" id="loginBtn" class="btn-gold mt-2">Sign In</button>
+          <div class="text-right mt-2">
+            <a href="forgot-password.html" class="font-body text-xs hover:underline" style="color:var(--gold)">Forgot password?</a>
+          </div>
+
+        </form>
+
+        <p class="text-center font-body text-xs text-charcoal/50 mt-6">
+          Don't have an account?
+          <a href="signup.html" class="text-gold hover:underline ml-1">Create one →</a>
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────── -->
+  <footer class="py-8 px-6 text-center">
+    <p class="font-body text-[0.65rem] tracking-wide" style="color:#5A534E">
+      © 2025 Pilates Zone Wellness Spa. All rights reserved.
+    </p>
+  </footer>
+
+  <script>
+    const API = '/api';
+
+    function showAlert(id, msg, type = 'error') {
+      const el = document.getElementById(id);
+      el.textContent = msg;
+      el.style.display = 'block';
+      if (type === 'success') {
+        el.className = 'alert-success';
+      } else {
+        el.className = 'alert-error';
+      }
+      el.style.display = 'block';
+    }
+
+    function togglePass(inputId, btn) {
+      const inp = document.getElementById(inputId);
+      const show = inp.type === 'password';
+      inp.type = show ? 'text' : 'password';
+      btn.textContent = show ? 'Hide' : 'Show';
+    }
+
+    // Redirect if already logged in
+    if (localStorage.getItem('pz_token') && localStorage.getItem('pz_user')) {
+      const u = JSON.parse(localStorage.getItem('pz_user'));
+      window.location.href = u.role === 'admin' ? 'admin.html' : 'dashboard.html';
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('loginBtn');
+      btn.textContent = 'Signing In...';
+      btn.disabled = true;
+
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+
+      try {
+        const res = await fetch(`${API}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+        });
+        const data = await res.json();
+
+        if (!data.success) {
+          showAlert('loginError', data.message);
+          btn.textContent = 'Sign In';
+          btn.disabled = false;
+          return;
+        }
+
+        // Store token & user info
+        localStorage.setItem('pz_token', data.token);
+        localStorage.setItem('pz_user', JSON.stringify(data.user));
+
+        showAlert('loginSuccess', 'Login successful! Redirecting...', 'success');
+
+        setTimeout(() => {
+          window.location.href = data.user.role === 'admin' ? 'admin.html' : 'dashboard.html';
+        }, 800);
+
+      } catch (err) {
+        showAlert('loginError', 'Could not connect to server. Make sure the backend is running.');
+        btn.textContent = 'Sign In';
+        btn.disabled = false;
+      }
+    });
+  </script>
+
+</body>
+
+</html>

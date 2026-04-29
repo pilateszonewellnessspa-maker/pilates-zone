@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up – Pilates Zone Wellness Spa</title>
+  <meta name="description" content="Create your Pilates Zone account and begin your wellness journey today." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gold: '#B8962E', 'gold-light': '#D4AF5A', 'gold-dark': '#8B6E1A',
+            cream: '#F5F0E8', 'cream-dark': '#EDE6D9', 'warm-gray': '#C5BEB0', charcoal: '#3A3530',
+          },
+          fontFamily: { display: ['Cormorant Garamond', 'serif'], body: ['Jost', 'sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --gold: #B8962E;
+      --gold-light: #D4AF5A;
+      --cream: #F5F0E8;
+      --cream-dark: #EDE6D9;
+      --charcoal: #3A3530;
+    }
+
+    body {
+      background-color: var(--cream-dark);
+      color: var(--charcoal);
+      font-family: 'Jost', sans-serif;
+    }
+
+    .wave-bg { position: absolute; inset: 0; overflow: hidden; z-index: 0; pointer-events: none; }
+    .wave-bg::before, .wave-bg::after { content: ''; position: absolute; border-radius: 50%; opacity: 0.10; background: var(--gold); }
+    .wave-bg::before { width: 70vw; height: 70vw; top: -20vw; left: -15vw; }
+    .wave-bg::after  { width: 50vw; height: 50vw; bottom: -10vw; right: -10vw; }
+
+    .gold-line { width: 48px; height: 2px; background: var(--gold); }
+
+    .btn-gold {
+      background: var(--gold); color: #fff; font-family: 'Jost', sans-serif; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.78rem; padding: 14px 32px;
+      border-radius: 2px; transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+      display: block; width: 100%; text-align: center; border: none; cursor: pointer;
+    }
+    .btn-gold:hover { background: #9a7c22; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(184, 150, 46, 0.28); }
+    .btn-gold:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .btn-outline {
+      border: 1.5px solid var(--gold); color: var(--gold); font-family: 'Jost', sans-serif; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.78rem; padding: 12px 32px;
+      border-radius: 2px; transition: background 0.3s, color 0.3s; background: transparent; cursor: pointer;
+      display: block; width: 100%; text-align: center;
+    }
+    .btn-outline:hover { background: var(--gold); color: #fff; }
+
+    .form-input {
+      width: 100%; background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(184, 150, 46, 0.25);
+      border-radius: 2px; padding: 12px 16px; font-family: 'Jost', sans-serif; font-size: 0.9rem;
+      color: #3A3530; outline: none; transition: border-color 0.3s;
+    }
+    .form-input:focus { border-color: var(--gold); }
+    .form-input::placeholder { color: #9C937F; }
+
+    .otp-input {
+      width: 100%; background: rgba(255, 255, 255, 0.9); border: 2px solid rgba(184, 150, 46, 0.4);
+      border-radius: 2px; padding: 16px; font-family: 'Cormorant Garamond', serif; font-size: 2rem;
+      font-weight: 600; text-align: center; letter-spacing: 0.5em; color: var(--gold); outline: none; transition: border-color 0.3s;
+    }
+    .otp-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(184,150,46,0.15); }
+
+    .section-label {
+      font-family: 'Jost', sans-serif; font-size: 0.7rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gold); font-weight: 500;
+    }
+
+    .alert-error   { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; padding: 12px 16px; border-radius: 2px; font-size: 0.85rem; margin-bottom: 16px; display: none; }
+    .alert-success { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 12px 16px; border-radius: 2px; font-size: 0.85rem; margin-bottom: 16px; display: none; }
+
+    .strength-bar { height: 4px; border-radius: 2px; transition: width 0.3s, background 0.3s; }
+
+    /* Step transitions */
+    .step { transition: opacity 0.4s ease; }
+    .step.hidden { display: none; }
+
+    nav { background: rgba(245, 240, 232, 0.96); backdrop-filter: blur(8px); }
+
+    /* Animated rings for OTP step */
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(184, 150, 46, 0.4); }
+      70% { transform: scale(1); box-shadow: 0 0 0 12px rgba(184, 150, 46, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(184, 150, 46, 0); }
+    }
+    .pulse-icon { animation: pulse-ring 2.5s ease infinite; }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav class="sticky top-0 z-50 py-4 px-6 md:px-12" style="box-shadow:0 2px 20px rgba(58,53,48,0.08)">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <a href="index1.html" class="flex items-center gap-3 leading-none">
+        <img src="logo.png" alt="Pilates Zone Logo" style="width:40px;height:40px;object-fit:contain;flex-shrink:0;" />
+        <span class="flex flex-col">
+          <span class="font-display text-xl font-semibold tracking-wide" style="color:var(--gold)">PILATES ZONE</span>
+          <span class="font-body text-[0.6rem] tracking-[0.22em] uppercase" style="color:var(--charcoal)">Wellness Spa</span>
+        </span>
+      </a>
+      <a href="login.html" class="font-body text-xs tracking-widest uppercase hover:text-gold transition-colors text-charcoal/60">
+        Sign In →
+      </a>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="relative min-h-[calc(100vh-80px)] flex items-center justify-center py-16 px-6 overflow-hidden">
+    <div class="wave-bg"></div>
+
+    <div class="relative z-10 w-full max-w-md">
+
+      <!-- ══ STEP 1: SIGNUP FORM ════════════════════════════ -->
+      <div id="step-signup" class="step">
+
+        <div class="text-center mb-10">
+          <div class="flex items-center justify-center gap-3 mb-4">
+            <div class="gold-line"></div>
+            <span class="section-label">Create Account</span>
+            <div class="gold-line"></div>
+          </div>
+          <h1 class="font-display text-3xl md:text-4xl font-light" style="color:var(--charcoal)">
+            Start Your <em class="not-italic" style="color:var(--gold)">Journey</em>
+          </h1>
+          <p class="font-body text-sm text-charcoal/60 mt-3">Join Pilates Zone – free to sign up</p>
+        </div>
+
+        <!-- Info notice -->
+        <div class="bg-gold/10 border border-gold/30 rounded p-4 mb-6 flex gap-3 items-start">
+          <span class="text-gold text-base mt-0.5 flex-shrink-0">ℹ</span>
+          <p class="font-body text-xs text-charcoal/70 leading-relaxed">
+            After signing up, you'll receive a 6-digit OTP to verify your email. Once verified, you can browse and purchase membership plans.
+          </p>
+        </div>
+
+        <div class="bg-white/70 backdrop-blur-sm rounded p-8 shadow-sm border border-gold/10">
+
+          <div id="signupError"   class="alert-error"></div>
+          <div id="signupSuccess" class="alert-success"></div>
+
+          <form id="signupForm" class="space-y-5" novalidate>
+            <div>
+              <label class="font-body text-[0.65rem] uppercase tracking-widest text-charcoal/50 block mb-2">Full Name</label>
+              <input id="signupName"  type="text"  placeholder="Priya Sharma"       class="form-input" required />
+            </div>
+            <div>
+              <label class="font-body text-[0.65rem] uppercase tracking-widest text-charcoal/50 block mb-2">Phone Number</label>
+              <input id="signupPhone" type="tel"   placeholder="+91 98XXX XXXXX"    class="form-input" required />
+            </div>
+            <div>
+              <label class="font-body text-[0.65rem] uppercase tracking-widest text-charcoal/50 block mb-2">Email Address</label>
+              <input id="signupEmail" type="email" placeholder="your@email.com"     class="form-input" required />
+            </div>
+            <div>
+              <label class="font-body text-[0.65rem] uppercase tracking-widest text-charcoal/50 block mb-2">Password</label>
+              <div class="relative">
+                <input id="signupPassword" type="password" placeholder="Min. 6 characters" class="form-input" required
+                  oninput="checkStrength(this.value)" />
+                <button type="button" onclick="togglePass('signupPassword', this)"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-charcoal/40 text-xs font-body uppercase tracking-widest hover:text-gold transition-colors">
+                  Show
+                </button>
+              </div>
+              <div class="mt-2 bg-gray-200 rounded-full h-1">
+                <div id="strengthBar" class="strength-bar bg-gray-300" style="width:0%"></div>
+              </div>
+              <p id="strengthLabel" class="font-body text-[0.65rem] text-charcoal/40 mt-1"></p>
+            </div>
+            <div>
+              <label class="font-body text-[0.65rem] uppercase tracking-widest text-charcoal/50 block mb-2">Confirm Password</label>
+              <input id="signupConfirm" type="password" placeholder="Re-enter password" class="form-input" required />
+            </div>
+
+            <button type="submit" id="signupBtn" class="btn-gold mt-2">Create Account & Get OTP</button>
+          </form>
+
+          <p class="text-center font-body text-xs text-charcoal/50 mt-6">
+            Already have an account?
+            <a href="login.html" class="text-gold hover:underline ml-1">Sign In →</a>
+          </p>
+        </div>
+      </div>
+
+      <!-- ══ STEP 2: OTP VERIFICATION ══════════════════════ -->
+      <div id="step-otp" class="step hidden">
+
+        <div class="text-center mb-10">
+          <!-- Animated email icon -->
+          <div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 pulse-icon"
+            style="background:rgba(184,150,46,0.15); border: 2px solid rgba(184,150,46,0.4);">
+            <span class="text-3xl">✉</span>
+          </div>
+          <div class="flex items-center justify-center gap-3 mb-4">
+            <div class="gold-line"></div>
+            <span class="section-label">Verify Email</span>
+            <div class="gold-line"></div>
+          </div>
+          <h2 class="font-display text-3xl font-light" style="color:var(--charcoal)">
+            Check Your <em class="not-italic" style="color:var(--gold)">Email</em>
+          </h2>
+          <p class="font-body text-sm text-charcoal/60 mt-3">
+            We sent a 6-digit OTP to<br>
+            <strong id="otpEmailDisplay" class="text-charcoal font-medium"></strong>
+          </p>
+        </div>
+
+        <div class="bg-white/70 backdrop-blur-sm rounded p-8 shadow-sm border border-gold/10">
+
+          <div id="otpError"   class="alert-error"></div>
+          <div id="otpSuccess" class="alert-success"></div>
+
+          <form id="otpForm" class="space-y-6" novalidate>
+            <div>
+              <label class="font-body text-[0.65rem] uppercase tracking-widest text-charcoal/50 block mb-3 text-center">
+                Enter 6-Digit OTP
+              </label>
+              <input id="otpInput" type="text" inputmode="numeric" maxlength="6"
+                placeholder="• • • • • •" class="otp-input" required autocomplete="one-time-code" />
+            </div>
+
+            <button type="submit" id="verifyBtn" class="btn-gold">Verify & Activate</button>
+          </form>
+
+          <div class="mt-5 text-center">
+            <p class="font-body text-xs text-charcoal/50 mb-2">Didn't receive the email?</p>
+            <button onclick="resendOTP()" id="resendBtn"
+              class="font-body text-xs text-gold hover:underline uppercase tracking-widest">
+              Resend OTP
+            </button>
+            <p id="resendCooldown" class="font-body text-xs text-charcoal/40 mt-1 hidden"></p>
+          </div>
+
+          <div class="mt-5 border-t border-gold/10 pt-4 text-center">
+            <button onclick="skipOTP()"
+              class="font-body text-xs text-charcoal/40 hover:text-charcoal transition-colors uppercase tracking-widest">
+              Skip for now →
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="py-8 px-6 text-center" style="background:#2A2520;">
+    <p class="font-body text-[0.65rem] tracking-wide" style="color:#5A534E">© 2025 Pilates Zone Wellness Spa. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const API = '/api';
+    let authToken = null;    // set after signup
+    let resendTimer = null;
+
+    // Redirect if already logged in
+    if (localStorage.getItem('pz_token')) {
+      window.location.href = 'dashboard.html';
+    }
+
+    function showAlert(id, msg, type = 'error') {
+      const el = document.getElementById(id);
+      el.textContent = msg;
+      el.className = type === 'success' ? 'alert-success' : 'alert-error';
+      el.style.display = 'block';
+    }
+    function hideAlerts(...ids) {
+      ids.forEach(id => { document.getElementById(id).style.display = 'none'; });
+    }
+
+    function togglePass(inputId, btn) {
+      const inp = document.getElementById(inputId);
+      const show = inp.type === 'password';
+      inp.type = show ? 'text' : 'password';
+      btn.textContent = show ? 'Hide' : 'Show';
+    }
+
+    function checkStrength(val) {
+      const bar = document.getElementById('strengthBar');
+      const label = document.getElementById('strengthLabel');
+      let score = 0;
+      if (val.length >= 6) score++;
+      if (val.length >= 10) score++;
+      if (/[A-Z]/.test(val)) score++;
+      if (/[0-9]/.test(val)) score++;
+      if (/[^A-Za-z0-9]/.test(val)) score++;
+      const levels = [
+        { pct: '0%', color: '#e5e7eb', text: '' },
+        { pct: '20%', color: '#ef4444', text: 'Weak' },
+        { pct: '40%', color: '#f97316', text: 'Fair' },
+        { pct: '60%', color: '#eab308', text: 'Good' },
+        { pct: '80%', color: '#22c55e', text: 'Strong' },
+        { pct: '100%', color: '#16a34a', text: 'Very Strong' },
+      ];
+      const l = levels[score] || levels[0];
+      bar.style.width = l.pct;
+      bar.style.background = l.color;
+      label.textContent = l.text;
+    }
+
+    // ── STEP 1: Signup ─────────────────────────────────────
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideAlerts('signupError', 'signupSuccess');
+
+      const name     = document.getElementById('signupName').value.trim();
+      const phone    = document.getElementById('signupPhone').value.trim();
+      const email    = document.getElementById('signupEmail').value.trim();
+      const password = document.getElementById('signupPassword').value;
+      const confirm  = document.getElementById('signupConfirm').value;
+
+      if (!name || !phone || !email || !password)
+        return showAlert('signupError', 'All fields are required.');
+      if (password.length < 6)
+        return showAlert('signupError', 'Password must be at least 6 characters.');
+      if (password !== confirm)
+        return showAlert('signupError', 'Passwords do not match.');
+
+      const btn = document.getElementById('signupBtn');
+      btn.textContent = 'Creating Account...';
+      btn.disabled = true;
+
+      try {
+        const res  = await fetch(`${API}/auth/signup`, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ name, phone, email, password }),
+        });
+        const data = await res.json();
+
+        if (!data.success) {
+          showAlert('signupError', data.message);
+          btn.textContent = 'Create Account & Get OTP';
+          btn.disabled = false;
+          return;
+        }
+
+        // Store token for OTP step
+        authToken = data.token;
+        localStorage.setItem('pz_token', data.token);
+        localStorage.setItem('pz_user', JSON.stringify(data.user));
+
+        // Show OTP step
+        document.getElementById('otpEmailDisplay').textContent = email;
+        document.getElementById('step-signup').classList.add('hidden');
+        document.getElementById('step-otp').classList.remove('hidden');
+        startResendCooldown(60);
+
+      } catch (err) {
+        showAlert('signupError', 'Could not connect to server. Ensure the backend is running.');
+        btn.textContent = 'Create Account & Get OTP';
+        btn.disabled = false;
+      }
+    });
+
+    // ── STEP 2: Verify OTP ─────────────────────────────────
+    document.getElementById('otpForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideAlerts('otpError', 'otpSuccess');
+
+      const otp = document.getElementById('otpInput').value.trim();
+      if (!otp || otp.length !== 6)
+        return showAlert('otpError', 'Please enter the 6-digit OTP from your email.');
+
+      const btn = document.getElementById('verifyBtn');
+      btn.textContent = 'Verifying...';
+      btn.disabled = true;
+
+      try {
+        const token = authToken || localStorage.getItem('pz_token');
+        const res   = await fetch(`${API}/auth/verify-otp`, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body:    JSON.stringify({ otp }),
+        });
+        const data = await res.json();
+
+        if (!data.success) {
+          showAlert('otpError', data.message);
+          btn.textContent = 'Verify & Activate';
+          btn.disabled = false;
+          return;
+        }
+
+        // Update stored user
+        const storedUser = JSON.parse(localStorage.getItem('pz_user') || '{}');
+        storedUser.isEmailVerified = true;
+        localStorage.setItem('pz_user', JSON.stringify(storedUser));
+
+        showAlert('otpSuccess', '✅ Email verified! Redirecting to your dashboard...', 'success');
+        setTimeout(() => { window.location.href = 'dashboard.html'; }, 1200);
+
+      } catch (err) {
+        showAlert('otpError', 'Verification failed. Please try again.');
+        btn.textContent = 'Verify & Activate';
+        btn.disabled = false;
+      }
+    });
+
+    // ── Resend OTP ─────────────────────────────────────────
+    async function resendOTP() {
+      hideAlerts('otpError', 'otpSuccess');
+      try {
+        const token = authToken || localStorage.getItem('pz_token');
+        const res   = await fetch(`${API}/auth/send-otp`, {
+          method:  'POST',
+          headers: { 'Authorization': `Bearer ${token}` },
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          showAlert('otpSuccess', '✅ OTP resent! Check your email.', 'success');
+          startResendCooldown(60);
+        } else {
+          showAlert('otpError', data.message);
+        }
+      } catch (err) {
+        showAlert('otpError', 'Could not resend OTP. Try again later.');
+      }
+    }
+
+    function startResendCooldown(seconds) {
+      const btn      = document.getElementById('resendBtn');
+      const cooldown = document.getElementById('resendCooldown');
+      btn.style.display = 'none';
+      cooldown.classList.remove('hidden');
+      let remaining = seconds;
+      cooldown.textContent = `Resend available in ${remaining}s`;
+      resendTimer = setInterval(() => {
+        remaining--;
+        cooldown.textContent = `Resend available in ${remaining}s`;
+        if (remaining <= 0) {
+          clearInterval(resendTimer);
+          cooldown.classList.add('hidden');
+          btn.style.display = 'inline';
+        }
+      }, 1000);
+    }
+
+    // ── Skip OTP (go to dashboard anyway) ─────────────────
+    function skipOTP() {
+      window.location.href = 'dashboard.html';
+    }
+  </script>
+
+</body>
+
+</html>

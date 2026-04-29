@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pay via UPI – Pilates Zone Wellness Spa</title>
+  <meta name="description" content="Complete your membership payment via UPI QR code at Pilates Zone Wellness Spa." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gold: '#B8962E', 'gold-light': '#D4AF5A', 'gold-dark': '#8B6E1A',
+            cream: '#F5F0E8', 'cream-dark': '#EDE6D9', 'warm-gray': '#C5BEB0', charcoal: '#3A3530',
+          },
+          fontFamily: { display: ['Cormorant Garamond', 'serif'], body: ['Jost', 'sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --gold: #B8962E;
+      --gold-light: #D4AF5A;
+      --cream: #F5F0E8;
+      --cream-dark: #EDE6D9;
+      --charcoal: #3A3530;
+    }
+
+    body {
+      background-color: var(--cream);
+      color: var(--charcoal);
+      font-family: 'Jost', sans-serif;
+    }
+
+    .section-label {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    .gold-line {
+      width: 48px;
+      height: 2px;
+      background: var(--gold);
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: #fff;
+      font-family: 'Jost', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      padding: 12px 28px;
+      border-radius: 2px;
+      transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-gold:hover {
+      background: #9a7c22;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(184, 150, 46, 0.28);
+    }
+
+    .btn-gold:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-outline {
+      border: 1.5px solid var(--gold);
+      color: var(--gold);
+      font-family: 'Jost', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      padding: 11px 28px;
+      border-radius: 2px;
+      transition: background 0.3s, color 0.3s, transform 0.2s;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .btn-outline:hover {
+      background: var(--gold);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(184, 150, 46, 0.12);
+      border-radius: 6px;
+      backdrop-filter: blur(4px);
+    }
+
+    .input-field {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(184, 150, 46, 0.3);
+      border-radius: 3px;
+      padding: 10px 14px;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.9rem;
+      color: var(--charcoal);
+      width: 100%;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .input-field:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(184, 150, 46, 0.12);
+    }
+
+    .input-field::placeholder {
+      color: #a09880;
+    }
+
+    nav {
+      background: rgba(245, 240, 232, 0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(184, 150, 46, 0.15);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .step-number {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1.5px solid var(--gold);
+      color: var(--gold);
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .copy-btn {
+      background: transparent;
+      border: 1px solid rgba(184, 150, 46, 0.4);
+      color: var(--gold);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: var(--gold);
+      color: #fff;
+    }
+
+    .badge-pending {
+      background: #fef3c7;
+      color: #92400e;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+  
+    /* ── Mobile hamburger menu ─────────────────────────── */
+    .mobile-menu {
+      display: none; position: absolute; top: 100%; right: 0; left: 0;
+      background: rgba(42,37,32,0.98); backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(184,150,46,0.15);
+      padding: 16px 24px; z-index: 99;
+    }
+    .mobile-menu.open { display: block; }
+    .mobile-menu a, .mobile-menu button {
+      display: block; width: 100%; text-align: left;
+      padding: 12px 0; border: none; background: none;
+      border-bottom: 1px solid rgba(184,150,46,0.08);
+      color: #F5F0E8; font-family: 'Jost',sans-serif;
+      font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase;
+      cursor: pointer; text-decoration: none; transition: color 0.2s;
+    }
+    .mobile-menu a:last-child, .mobile-menu button:last-child { border-bottom: none; }
+    .mobile-menu a:hover, .mobile-menu button:hover { color: #B8962E; }
+    .hamburger { display: none; cursor: pointer; padding: 6px; border: none; background: none; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: #B8962E; margin: 5px 0; transition: all 0.3s; }
+    @media (max-width: 768px) {
+      .hamburger { display: block; }
+      .desktop-nav { display: none !important; }
+    }
+</style>
+</head>
+
+<body>
+
+  <!-- ── Navigation ──────────────────────────────────────────── -->
+  <nav style="position:relative">
+    <div class="max-w-6xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
+      <a href="dashboard.html" class="flex items-center gap-3">
+        <img src="logo.png" alt="Pilates Zone Logo" style="width:36px;height:36px;object-fit:contain;" />
+        <span class="font-display text-xl tracking-wide" style="color:var(--gold)">Pilates Zone</span>
+      </a>
+      <div class="desktop-nav">
+        <a href="dashboard.html" class="section-label flex items-center gap-2 hover:text-gold-dark transition-colors">
+          ← Back to Dashboard
+        </a>
+      </div>
+      <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div id="mobileNav" class="mobile-menu">
+        <a href="dashboard.html">← Back to Dashboard</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Main ───────────────────────────────────────────────── -->
+  <main class="max-w-2xl mx-auto px-6 py-14">
+
+    <!-- Header -->
+    <div class="mb-10 text-center">
+      <p class="section-label mb-3">Secure Payment</p>
+      <div class="gold-line mx-auto mb-4"></div>
+      <h1 class="font-display text-3xl md:text-4xl text-charcoal font-light">Complete Your Payment</h1>
+      <p class="text-warm-gray text-sm mt-3 font-body">
+        Scan the QR code below or pay directly to our UPI ID, then enter your transaction reference.
+      </p>
+    </div>
+
+    <!-- Plan summary -->
+    <div id="plan-summary" class="card p-5 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      <div>
+        <p class="section-label mb-1">Selected Plan</p>
+        <p id="plan-name" class="font-display text-2xl text-charcoal"></p>
+      </div>
+      <div class="text-right">
+        <p class="section-label mb-1">Amount</p>
+        <p id="plan-amount" class="font-display text-2xl md:text-3xl text-gold font-semibold"></p>
+      </div>
+    </div>
+
+    <!-- Steps card -->
+    <div class="card p-4 md:p-8 space-y-8">
+
+      <!-- Step 1 – QR -->
+      <div class="flex gap-4">
+        <div class="step-number">1</div>
+        <div class="flex-1">
+          <p class="font-body font-medium text-charcoal mb-4">Scan & Pay</p>
+          <div class="bg-white border border-gold/20 rounded p-4 w-fit mx-auto" id="qr-wrapper">
+            <img src="upi-qr.jpeg" alt="UPI QR Code" style="width:200px;height:200px;object-fit:contain;display:block;" />
+          </div>
+          <p class="text-center text-warm-gray text-xs mt-3 font-body">
+            Open PhonePe, GPay, Paytm or any UPI app and scan to pay
+          </p>
+        </div>
+      </div>
+
+      <div class="border-t border-gold/10"></div>
+
+      <!-- Step 2 – UPI ID -->
+      <div class="flex gap-4">
+        <div class="step-number">2</div>
+        <div class="flex-1">
+          <p class="font-body font-medium text-charcoal mb-3">Or pay directly to UPI ID</p>
+          <div class="flex items-center gap-3 bg-cream-dark/60 border border-gold/15 rounded px-4 py-2.5">
+            <span id="upi-display" class="font-mono text-charcoal text-sm flex-1"></span>
+            <button class="copy-btn" id="copy-btn" onclick="copyUpi()">Copy</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-gold/10"></div>
+
+      <!-- Step 3 – Transaction ID -->
+      <div class="flex gap-4">
+        <div class="step-number">3</div>
+        <div class="flex-1">
+          <p class="font-body font-medium text-charcoal mb-1">Enter Transaction / UTR ID</p>
+          <p class="text-warm-gray text-xs mb-3">
+            Find the 12-digit UTR or transaction reference in your payment app receipt.
+          </p>
+
+          <div id="error-msg"
+            class="hidden bg-amber-50 border border-amber-200 text-amber-800 text-xs rounded px-4 py-2.5 mb-3 font-body">
+          </div>
+          <div id="success-msg"
+            class="hidden bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm rounded px-4 py-3 mb-3 font-body text-center">
+          </div>
+
+          <form id="txn-form" onsubmit="submitTxnId(event)">
+            <input
+              id="txn-input"
+              class="input-field mb-4"
+              type="text"
+              placeholder="e.g. 425612345678"
+              minlength="4"
+              required
+            />
+            <button type="submit" id="submit-btn" class="btn-gold w-full">
+              Submit Payment
+            </button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="text-center text-warm-gray text-xs mt-8 font-body">
+      Your membership activates after our team verifies your payment — usually within a few hours.
+    </p>
+
+  </main>
+
+  <script>
+    const API = '/api';
+
+    // ── Read URL params ────────────────────────────────────────
+    const params    = new URLSearchParams(window.location.search);
+    const paymentId = params.get('paymentId');
+    const pkgName   = params.get('pkg')    || 'Membership Plan';
+    const amount    = params.get('amount') || '0';
+
+    // ── UPI config (edit these) ────────────────────────────────
+    const UPI_ID   = 'yourname@upi';        // ← replace with your UPI ID
+    const BIZ_NAME = 'Pilates Zone Wellness Spa';
+
+    // ── Populate plan summary ──────────────────────────────────
+    document.getElementById('plan-name').textContent   = decodeURIComponent(pkgName);
+    document.getElementById('plan-amount').textContent = '₹' + Number(amount).toLocaleString('en-IN');
+    document.getElementById('upi-display').textContent = UPI_ID;
+
+    // QR image is static (upi-qr.jpeg)
+
+    // ── Copy UPI ID ────────────────────────────────────────────
+    function copyUpi() {
+      navigator.clipboard.writeText(UPI_ID).then(() => {
+        const btn = document.getElementById('copy-btn');
+        btn.textContent = 'Copied!';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+      });
+    }
+
+    // ── Auth helpers ───────────────────────────────────────────
+    function getToken() { return localStorage.getItem('pz_token'); }
+    function authHeader() {
+      return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + getToken() };
+    }
+
+    // ── Submit transaction ID ──────────────────────────────────
+    async function submitTxnId(e) {
+      e.preventDefault();
+      const errEl  = document.getElementById('error-msg');
+      const sucEl  = document.getElementById('success-msg');
+      const btn    = document.getElementById('submit-btn');
+      const txnId  = document.getElementById('txn-input').value.trim();
+
+      errEl.classList.add('hidden');
+      sucEl.classList.add('hidden');
+
+      if (!txnId || txnId.length < 4) {
+        errEl.textContent = 'Please enter a valid transaction ID (minimum 4 characters).';
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      if (!paymentId) {
+        errEl.textContent = 'Invalid payment session. Please go back and try again.';
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      btn.disabled    = true;
+      btn.textContent = 'Submitting…';
+
+      try {
+        const res  = await fetch(`${API}/payments/submit-txn`, {
+          method:  'POST',
+          headers: authHeader(),
+          body:    JSON.stringify({ paymentId, transactionId: txnId }),
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          document.getElementById('txn-form').classList.add('hidden');
+          sucEl.innerHTML = `
+            ✓ Payment submitted successfully!<br>
+            <span class="text-xs text-emerald-600 mt-1 block">
+              Our team will verify and activate your plan within a few hours.
+            </span>
+          `;
+          sucEl.classList.remove('hidden');
+          setTimeout(() => { window.location.href = 'dashboard.html'; }, 3500);
+        } else {
+          errEl.textContent = data.message || 'Submission failed. Please try again.';
+          errEl.classList.remove('hidden');
+          btn.disabled    = false;
+          btn.textContent = 'Submit Payment';
+        }
+      } catch (err) {
+        console.error(err);
+        errEl.textContent = 'Could not reach the server. Please try again.';
+        errEl.classList.remove('hidden');
+        btn.disabled    = false;
+        btn.textContent = 'Submit Payment';
+      }
+    }
+  </script>
+
+
+  <script>
+    function toggleMenu() { document.getElementById('mobileNav').classList.toggle('open'); }
+    function closeMenu()  { document.getElementById('mobileNav').classList.remove('open'); }
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('nav')) closeMenu();
+    });
+  </script>
+</body>
+</html>

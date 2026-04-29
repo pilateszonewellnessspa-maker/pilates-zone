@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel – Pilates Zone</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gold: '#B8962E', 'gold-light': '#D4AF5A', 'gold-dark': '#8B6E1A',
+            cream: '#F5F0E8', 'cream-dark': '#EDE6D9', 'warm-gray': '#C5BEB0', charcoal: '#3A3530',
+          },
+          fontFamily: { display: ['Cormorant Garamond', 'serif'], body: ['Jost', 'sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --gold: #B8962E;
+      --cream: #F5F0E8;
+      --cream-dark: #EDE6D9;
+      --charcoal: #3A3530;
+    }
+
+    body {
+      background-color: var(--cream-dark);
+      color: var(--charcoal);
+      font-family: 'Jost', sans-serif;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    .gold-line {
+      width: 48px;
+      height: 2px;
+      background: var(--gold);
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: #fff;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      padding: 9px 20px;
+      border-radius: 2px;
+      transition: background 0.3s;
+      cursor: pointer;
+      border: none;
+      white-space: nowrap;
+    }
+
+    .btn-gold:hover {
+      background: #9a7c22;
+    }
+
+    .btn-sm {
+      background: rgba(184, 150, 46, 0.1);
+      border: 1px solid rgba(184, 150, 46, 0.3);
+      color: var(--gold);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-sm:hover {
+      background: rgba(184, 150, 46, 0.2);
+    }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #dc2626;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+
+    .btn-danger:hover {
+      background: rgba(239, 68, 68, 0.2);
+    }
+
+    nav {
+      background: rgba(42, 37, 32, 0.97);
+    }
+
+    .tab { white-space:nowrap; flex-shrink:0;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 10px 20px;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: rgba(197, 190, 176, 0.6);
+    }
+
+    .tab.active {
+      border-bottom-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(184, 150, 46, 0.12);
+      border-radius: 6px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 1px solid rgba(184, 150, 46, 0.15);
+      white-space: nowrap;
+    }
+
+    td {
+      font-size: 0.85rem;
+      color: var(--charcoal);
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(58, 53, 48, 0.05);
+      vertical-align: middle;
+    }
+
+    tr:hover td {
+      background: rgba(184, 150, 46, 0.03);
+    }
+
+    .badge-v {
+      background: #d1fae5;
+      color: #065f46;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .badge-p {
+      background: #fef3c7;
+      color: #92400e;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .form-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(184, 150, 46, 0.25);
+      border-radius: 2px;
+      padding: 10px 14px;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.85rem;
+      color: #3A3530;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .form-input:focus {
+      border-color: var(--gold);
+    }
+
+    select.form-input {
+      cursor: pointer;
+    }
+
+    .modal-bg {
+      position: fixed;
+      inset: 0;
+      background: rgba(58, 53, 48, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 6px;
+      padding: 32px;
+      width: 100%;
+      max-width: 460px;
+    }
+
+    /* ── Mobile responsive ─────────────────────────── */
+    @media (max-width: 640px) {
+      table th, table td { font-size: 0.72rem; padding: 10px 8px; }
+      .btn-gold { font-size: 0.72rem; padding: 9px 14px; }
+      .btn-sm   { font-size: 0.65rem; padding: 5px 10px; }
+      .modal    { padding: 24px 18px; }
+      .tab      { font-size: 0.65rem; padding: 10px 12px; }
+    }
+
+    /* ── Mobile hamburger menu ─────────────────────────── */
+    .mobile-menu {
+      display: none; position: absolute; top: 100%; right: 0; left: 0;
+      background: rgba(42,37,32,0.98); backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(184,150,46,0.15);
+      padding: 16px 24px; z-index: 99;
+    }
+    .mobile-menu.open { display: block; }
+    .mobile-menu a, .mobile-menu button {
+      display: block; width: 100%; text-align: left;
+      padding: 12px 0; border: none; background: none;
+      border-bottom: 1px solid rgba(184,150,46,0.08);
+      color: #F5F0E8; font-family: 'Jost',sans-serif;
+      font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase;
+      cursor: pointer; text-decoration: none; transition: color 0.2s;
+    }
+    .mobile-menu a:last-child, .mobile-menu button:last-child { border-bottom: none; }
+    .mobile-menu a:hover, .mobile-menu button:hover { color: #B8962E; }
+    .hamburger { display: none; cursor: pointer; padding: 6px; border: none; background: none; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: #B8962E; margin: 5px 0; transition: all 0.3s; }
+    @media (max-width: 768px) {
+      .hamburger { display: block; }
+      .desktop-nav { display: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── NAV ──────────────────────────────────────────────── -->
+  <nav class="sticky top-0 z-40 py-4 px-6 md:px-12 relative">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img src="logo.png" alt="Pilates Zone Logo" style="width:36px;height:36px;object-fit:contain;flex-shrink:0;" />
+        <span class="font-display text-lg md:text-xl font-semibold tracking-wide" style="color:var(--gold)">PILATES ZONE</span>
+        <span class="font-body text-[0.6rem] tracking-[0.15em] uppercase hidden sm:inline" style="color:rgba(197,190,176,0.5)">Admin Panel</span>
+      </div>
+      <!-- Desktop nav -->
+      <div class="desktop-nav flex items-center gap-4">
+        <span class="font-body text-xs text-warm-gray/60">Administrator</span>
+        <button onclick="logout()" class="btn-sm" style="color:#C5BEB0;border-color:rgba(197,190,176,0.3)">Sign Out</button>
+      </div>
+      <!-- Hamburger -->
+      <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div id="mobileNav" class="mobile-menu">
+        <button onclick="closeMenu();logout()">🚪 Sign Out</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── TABS ─────────────────────────────────────────────── -->
+  <div class="border-b border-gold/10" style="background:rgba(42,37,32,0.8);">
+    <div class="max-w-7xl mx-auto px-4 md:px-12 flex gap-1 md:gap-2 overflow-x-auto">
+      <div class="tab active" id="tab-users" onclick="switchTab('users')">Users</div>
+      <div class="tab" id="tab-payments" onclick="switchTab('payments')">Payments</div>
+      <div class="tab" id="tab-packages" onclick="switchTab('packages')">Packages</div>
+    </div>
+  </div>
+
+  <!-- ── MAIN ─────────────────────────────────────────────── -->
+  <main class="max-w-7xl mx-auto px-6 md:px-12 py-10">
+
+    <!-- ══ USERS TAB ════════════════════════════════════════ -->
+    <div id="panel-users">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-8">
+        <div>
+          <div class="flex items-center gap-3 mb-2">
+            <div class="gold-line"></div><span class="section-label">Clients</span>
+          </div>
+          <h1 class="font-display text-2xl md:text-3xl font-light">All <em class="not-italic" style="color:var(--gold)">Members</em>
+          </h1>
+        </div>
+        <div class="flex gap-3">
+          <button onclick="seedPackages()" class="btn-sm">Seed Default Packages</button>
+          <button onclick="loadUsers()" class="btn-gold">↻ Refresh</button>
+        </div>
+      </div>
+      <div class="card overflow-hidden">
+        <div class="overflow-x-auto -mx-4 md:mx-0">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Status</th>
+                <th>Plan</th>
+                <th>Expiry</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="usersBody">
+              <tr>
+                <td colspan="7" class="text-center py-10 text-charcoal/40">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PAYMENTS TAB ══════════════════════════════════════ -->
+    <div id="panel-payments" class="hidden">
+
+      <!-- Pending Payments needing action -->
+      <div class="mb-10">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6">
+          <div>
+            <div class="flex items-center gap-3 mb-2">
+              <div class="gold-line"></div><span class="section-label">Awaiting Verification</span>
+            </div>
+            <h1 class="font-display text-2xl md:text-3xl font-light">Pending <em class="not-italic" style="color:var(--gold)">Payments</em></h1>
+          </div>
+          <button onclick="loadPendingPayments()" class="btn-gold">↻ Refresh</button>
+        </div>
+        <div id="pending-empty" class="hidden card p-8 text-center">
+          <p class="section-label mb-1">All Clear</p>
+          <p class="font-body text-sm" style="color:rgba(58,53,48,0.5)">No pending payments to review.</p>
+        </div>
+        <div id="pending-list" class="space-y-3"></div>
+      </div>
+
+      <!-- Divider -->
+      <div class="border-t mb-10" style="border-color:rgba(184,150,46,0.1)"></div>
+
+      <!-- All Payments History -->
+      <div>
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6">
+          <div>
+            <div class="flex items-center gap-3 mb-2">
+              <div class="gold-line"></div><span class="section-label">Billing History</span>
+            </div>
+            <h2 class="font-display text-2xl md:text-3xl font-light">All <em class="not-italic" style="color:var(--gold)">Payments</em></h2>
+          </div>
+          <button onclick="loadPayments()" class="btn-sm">↻ Refresh History</button>
+        </div>
+        <div class="card overflow-hidden">
+          <div class="overflow-x-auto -mx-4 md:mx-0">
+            <table>
+              <thead>
+                <tr>
+                  <th>Invoice</th>
+                  <th>Client</th>
+                  <th>Email</th>
+                  <th>Package</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="paymentsBody">
+                <tr>
+                  <td colspan="7" class="text-center py-10 text-charcoal/40">Loading...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ══ PACKAGES TAB ══════════════════════════════════════ -->
+    <div id="panel-packages" class="hidden">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-8">
+        <div>
+          <div class="flex items-center gap-3 mb-2">
+            <div class="gold-line"></div><span class="section-label">Plans</span>
+          </div>
+          <h1 class="font-display text-2xl md:text-3xl font-light">Manage <em class="not-italic"
+              style="color:var(--gold)">Packages</em></h1>
+        </div>
+        <button onclick="openNewPackage()" class="btn-gold">+ New Package</button>
+      </div>
+      <div class="card overflow-hidden">
+        <div class="overflow-x-auto -mx-4 md:mx-0">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Sessions</th>
+                <th>Validity</th>
+                <th>Popular</th>
+                <th>Active</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="packagesBody">
+              <tr>
+                <td colspan="7" class="text-center py-10 text-charcoal/40">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ══ ASSIGN PACKAGE MODAL ═══════════════════════════════ -->
+  <div id="assignModal" class="modal-bg hidden">
+    <div class="modal">
+      <h2 class="font-display text-2xl font-light mb-1" style="color:var(--charcoal)">Assign Package</h2>
+      <p id="assignUserName" class="font-body text-sm text-charcoal/50 mb-6"></p>
+      <label class="section-label block mb-2">Select Package</label>
+      <select id="assignPkgSelect" class="form-input mb-6"></select>
+      <div class="flex gap-3">
+        <button onclick="confirmAssign()" class="btn-gold flex-1" style="padding:12px">Assign Now</button>
+        <button onclick="document.getElementById('assignModal').classList.add('hidden')" class="btn-sm flex-1"
+          style="padding:12px">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PACKAGE CREATE/EDIT MODAL ══════════════════════════ -->
+  <div id="pkgModal" class="modal-bg hidden">
+    <div class="modal">
+      <h2 id="pkgModalTitle" class="font-display text-2xl font-light mb-6" style="color:var(--charcoal)">New Package
+      </h2>
+      <div class="space-y-4">
+        <div>
+          <label class="section-label block mb-1">Name</label>
+          <input id="pkgName" type="text" class="form-input" placeholder="Monthly Unlimited" />
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="section-label block mb-1">Price (₹)</label>
+            <input id="pkgPrice" type="number" class="form-input" placeholder="3999" />
+          </div>
+          <div>
+            <label class="section-label block mb-1">Validity (days)</label>
+            <input id="pkgDays" type="number" class="form-input" placeholder="30" />
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="section-label block mb-1">Sessions (0=unlimited)</label>
+            <input id="pkgSessions" type="number" class="form-input" placeholder="0" />
+          </div>
+          <div>
+            <label class="section-label block mb-1">Icon</label>
+            <input id="pkgIcon" type="text" class="form-input" placeholder="✦" />
+          </div>
+        </div>
+        <div>
+          <label class="section-label block mb-1">Description</label>
+          <textarea id="pkgDesc" rows="3" class="form-input resize-none" placeholder="Package details..."></textarea>
+        </div>
+        <div class="flex items-center gap-3">
+          <input id="pkgHighlight" type="checkbox" class="w-4 h-4 accent-gold" />
+          <label class="font-body text-sm text-charcoal/70">Mark as Popular / Highlighted</label>
+        </div>
+      </div>
+      <div class="flex gap-3 mt-6">
+        <button onclick="savePkg()" class="btn-gold flex-1" style="padding:12px">Save Package</button>
+        <button onclick="document.getElementById('pkgModal').classList.add('hidden')" class="btn-sm flex-1"
+          style="padding:12px">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API = '/api';
+    const token = localStorage.getItem('pz_token');
+    const user = JSON.parse(localStorage.getItem('pz_user') || 'null');
+
+    // Guard: admin only
+    if (!token || !user || user.role !== 'admin') {
+      window.location.href = 'login.html';
+    }
+
+    function logout() {
+      localStorage.removeItem('pz_token');
+      localStorage.removeItem('pz_user');
+      window.location.href = 'login.html';
+    }
+
+    function auth() {
+      return { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' };
+    }
+
+    // ── Tab switching ──────────────────────────────────────
+    function switchTab(name) {
+      ['users', 'payments', 'packages'].forEach(t => {
+        document.getElementById(`panel-${t}`).classList.toggle('hidden', t !== name);
+        document.getElementById(`tab-${t}`).classList.toggle('active', t === name);
+      });
+      if (name === 'users') loadUsers();
+      if (name === 'payments') { loadPendingPayments(); loadPayments(); }
+      if (name === 'packages') loadPackages();
+    }
+
+    // ── Load Users ─────────────────────────────────────────
+    async function loadUsers() {
+      const tbody = document.getElementById('usersBody');
+      tbody.innerHTML = `<tr><td colspan="7" class="text-center py-10 text-charcoal/40">Loading...</td></tr>`;
+      try {
+        const res = await fetch(`${API}/admin/users`, { headers: auth() });
+        const data = await res.json();
+        if (!data.success || data.users.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="7" class="text-center py-10 text-charcoal/40">No users found.</td></tr>`;
+          return;
+        }
+        tbody.innerHTML = data.users.map(u => `
+          <tr>
+            <td class="font-medium">${u.name}</td>
+            <td class="text-charcoal/60">${u.email}</td>
+            <td class="text-charcoal/60">${u.phone}</td>
+            <td>${u.status === 'verified'
+            ? '<span class="badge-v">✦ Verified</span>'
+            : '<span class="badge-p">⏳ Pending</span>'}</td>
+            <td class="text-charcoal/60">${u.activePlanName || '—'}</td>
+            <td class="text-charcoal/60">${u.activePlanExpiry
+            ? new Date(u.activePlanExpiry).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+            : '—'}</td>
+            <td>
+              <div class="flex gap-2 flex-wrap">
+                <button onclick="toggleApprove('${u._id}','${u.status}')" class="btn-sm">
+                  ${u.status === 'verified' ? 'Revoke' : 'Approve'}
+                </button>
+                <button onclick="openAssign('${u._id}','${u.name}')" class="btn-gold" style="padding:6px 14px;font-size:0.7rem">
+                  Assign Plan
+                </button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center py-10 text-red-400">Error loading users.</td></tr>`;
+      }
+    }
+
+    async function toggleApprove(userId, currentStatus) {
+      if (!confirm(`${currentStatus === 'verified' ? 'Revoke' : 'Approve'} this user?`)) return;
+      await fetch(`${API}/admin/users/${userId}/approve`, { method: 'PATCH', headers: auth() });
+      loadUsers();
+    }
+
+    // ── Assign Package ─────────────────────────────────────
+    let assignUserId = null;
+
+    async function openAssign(userId, userName) {
+      assignUserId = userId;
+      document.getElementById('assignUserName').textContent = `Assigning to: ${userName}`;
+
+      // Load packages into select
+      const res = await fetch(`${API}/packages`);
+      const data = await res.json();
+      const sel = document.getElementById('assignPkgSelect');
+      sel.innerHTML = data.packages.map(p =>
+        `<option value="${p._id}">₹${p.price} – ${p.name} (${p.validityDays} days)</option>`
+      ).join('');
+
+      document.getElementById('assignModal').classList.remove('hidden');
+    }
+
+    async function confirmAssign() {
+      const packageId = document.getElementById('assignPkgSelect').value;
+      try {
+        const res = await fetch(`${API}/admin/users/${assignUserId}/assign`, {
+          method: 'POST',
+          headers: auth(),
+          body: JSON.stringify({ packageId }),
+        });
+        const data = await res.json();
+        alert(data.message);
+        document.getElementById('assignModal').classList.add('hidden');
+        loadUsers();
+      } catch (err) {
+        alert('Assignment failed.');
+      }
+    }
+
+    // ── Load Payments ──────────────────────────────────────
+    async function loadPayments() {
+      const tbody = document.getElementById('paymentsBody');
+      tbody.innerHTML = `<tr><td colspan="7" class="text-center py-10 text-charcoal/40">Loading...</td></tr>`;
+      try {
+        const res = await fetch(`${API}/admin/payments`, { headers: auth() });
+        const data = await res.json();
+        if (!data.success || data.payments.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="7" class="text-center py-10 text-charcoal/40">No payments yet.</td></tr>`;
+          return;
+        }
+        const statusMap = { success: '<span class="badge-v">Paid</span>', manual: '<span style="background:#ede9fe;color:#4c1d95;padding:3px 10px;border-radius:20px;font-size:0.62rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase">Manual</span>', pending: '<span class="badge-p">Pending</span>', failed: '<span style="background:#fee2e2;color:#991b1b;padding:3px 10px;border-radius:20px;font-size:0.62rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase">Failed</span>' };
+        tbody.innerHTML = data.payments.map(p => `
+          <tr>
+            <td class="font-mono text-xs text-charcoal/60">${p.invoiceNumber}</td>
+            <td class="font-medium">${p.user?.name || '—'}</td>
+            <td class="text-charcoal/60">${p.user?.email || '—'}</td>
+            <td>${p.packageName}</td>
+            <td class="font-semibold" style="color:var(--gold)">₹${p.amount.toLocaleString('en-IN')}</td>
+            <td>${statusMap[p.status] || p.status}</td>
+            <td class="text-charcoal/60">${new Date(p.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center py-10 text-red-400">Error loading payments.</td></tr>`;
+      }
+    }
+
+    // ── Load & Manage Packages ─────────────────────────────
+    let pkgEditId = null;
+
+    async function loadPackages() {
+      const tbody = document.getElementById('packagesBody');
+      tbody.innerHTML = `<tr><td colspan="7" class="text-center py-10 text-charcoal/40">Loading...</td></tr>`;
+      try {
+        const res = await fetch(`${API}/packages`);
+        const data = await res.json();
+        tbody.innerHTML = data.packages.map(p => `
+          <tr>
+            <td class="font-medium">${p.name}</td>
+            <td style="color:var(--gold)" class="font-semibold">₹${p.price.toLocaleString('en-IN')}</td>
+            <td>${p.sessions > 0 ? p.sessions : 'Unlimited'}</td>
+            <td>${p.validityDays} days</td>
+            <td>${p.highlight ? '⭐ Yes' : 'No'}</td>
+            <td>${p.isActive ? '<span class="badge-v">Active</span>' : '<span class="badge-p">Off</span>'}</td>
+            <td>
+              <div class="flex gap-2">
+                <button onclick="editPkg(${JSON.stringify(p).replace(/"/g, '&quot;')})" class="btn-sm">Edit</button>
+                <button onclick="deletePkg('${p._id}')" class="btn-danger">Delete</button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center py-10 text-red-400">Error loading packages.</td></tr>`;
+      }
+    }
+
+    function openNewPackage() {
+      pkgEditId = null;
+      document.getElementById('pkgModalTitle').textContent = 'New Package';
+      ['pkgName', 'pkgPrice', 'pkgDays', 'pkgSessions', 'pkgIcon', 'pkgDesc'].forEach(id => {
+        document.getElementById(id).value = id === 'pkgSessions' ? '0' : id === 'pkgIcon' ? '✦' : '';
+      });
+      document.getElementById('pkgHighlight').checked = false;
+      document.getElementById('pkgModal').classList.remove('hidden');
+    }
+
+    function editPkg(p) {
+      pkgEditId = p._id;
+      document.getElementById('pkgModalTitle').textContent = 'Edit Package';
+      document.getElementById('pkgName').value = p.name;
+      document.getElementById('pkgPrice').value = p.price;
+      document.getElementById('pkgDays').value = p.validityDays;
+      document.getElementById('pkgSessions').value = p.sessions;
+      document.getElementById('pkgIcon').value = p.icon;
+      document.getElementById('pkgDesc').value = p.description;
+      document.getElementById('pkgHighlight').checked = p.highlight;
+      document.getElementById('pkgModal').classList.remove('hidden');
+    }
+
+    async function savePkg() {
+      const body = {
+        name: document.getElementById('pkgName').value,
+        price: Number(document.getElementById('pkgPrice').value),
+        validityDays: Number(document.getElementById('pkgDays').value),
+        sessions: Number(document.getElementById('pkgSessions').value),
+        icon: document.getElementById('pkgIcon').value || '✦',
+        description: document.getElementById('pkgDesc').value,
+        highlight: document.getElementById('pkgHighlight').checked,
+      };
+      const url = pkgEditId ? `${API}/admin/packages/${pkgEditId}` : `${API}/admin/packages`;
+      const method = pkgEditId ? 'PATCH' : 'POST';
+      await fetch(url, { method, headers: auth(), body: JSON.stringify(body) });
+      document.getElementById('pkgModal').classList.add('hidden');
+      loadPackages();
+    }
+
+    async function deletePkg(id) {
+      if (!confirm('Delete this package? This cannot be undone.')) return;
+      await fetch(`${API}/admin/packages/${id}`, { method: 'DELETE', headers: auth() });
+      loadPackages();
+    }
+
+    async function seedPackages() {
+      const res = await fetch(`${API}/admin/seed-packages`, { method: 'POST', headers: auth() });
+      const data = await res.json();
+      alert(data.message);
+      loadPackages();
+    }
+
+    // ── Pending Payments ────────────────────────────────────
+    async function loadPendingPayments() {
+      const res  = await fetch(`${API}/admin/payments`, { headers: auth() });
+      const data = await res.json();
+      const pending = (data.payments || []).filter(p => p.status === 'pending');
+
+      const list  = document.getElementById('pending-list');
+      const empty = document.getElementById('pending-empty');
+      list.innerHTML = '';
+
+      if (pending.length === 0) {
+        empty.classList.remove('hidden');
+        return;
+      }
+      empty.classList.add('hidden');
+
+      pending.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.style = 'padding:1.25rem';
+        const txnId = p.razorpay_order_id || p.transaction_id || '—';
+        const date  = new Date(p.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+        card.innerHTML = `
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px">
+            <div>
+              <p class="section-label" style="margin-bottom:4px">Transaction ID</p>
+              <p class="font-body" style="font-size:0.95rem;font-weight:500;color:var(--charcoal)">${txnId}</p>
+              <p class="font-body" style="font-size:0.78rem;color:rgba(58,53,48,0.5);margin-top:2px">
+                ${p.user?.name || '—'} · ${p.user?.email || ''} · ${p.packageName || p.package_name || '—'} · ₹${Number(p.amount).toLocaleString('en-IN')} · ${date}
+              </p>
+            </div>
+            <div style="display:flex;gap:8px;flex-shrink:0;flex-wrap:wrap">
+              <button onclick="handleApprove('${p.id || p._id}')" class="btn-gold" style="padding:8px 18px;font-size:0.72rem">
+                ✓ Approve
+              </button>
+              <button onclick="handleReject('${p.id || p._id}')" class="btn-sm" style="padding:8px 18px;color:#b45309;border-color:rgba(180,83,9,0.3)">
+                ✗ Reject
+              </button>
+            </div>
+          </div>`;
+        list.appendChild(card);
+      });
+    }
+
+    async function handleApprove(id) {
+      if (!confirm('Approve this payment? This will activate the user\'s subscription and create a receipt.')) return;
+      const btn = event.target;
+      btn.disabled = true; btn.textContent = 'Approving…';
+      try {
+        const res  = await fetch(`${API}/admin/payments/${id}/approve`, { method: 'PATCH', headers: auth() });
+        const data = await res.json();
+        alert(data.message || (data.success ? 'Approved!' : 'Error'));
+        loadPendingPayments();
+        loadPayments();
+      } catch (e) {
+        alert('Server error. Please try again.');
+      }
+      btn.disabled = false; btn.textContent = '✓ Approve';
+    }
+
+    async function handleReject(id) {
+      if (!confirm('Reject this payment?')) return;
+      const btn = event.target;
+      btn.disabled = true; btn.textContent = 'Rejecting…';
+      try {
+        const res  = await fetch(`${API}/admin/payments/${id}/reject`, { method: 'PATCH', headers: auth() });
+        const data = await res.json();
+        alert(data.message || (data.success ? 'Rejected.' : 'Error'));
+        loadPendingPayments();
+        loadPayments();
+      } catch (e) {
+        alert('Server error. Please try again.');
+      }
+      btn.disabled = false; btn.textContent = '✗ Reject';
+    }
+
+    // ── Boot ───────────────────────────────────────────────
+    loadUsers();
+  </script>
+
+
+  <script>
+    function toggleMenu() { document.getElementById('mobileNav').classList.toggle('open'); }
+    function closeMenu()  { document.getElementById('mobileNav').classList.remove('open'); }
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('nav')) closeMenu();
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pilates Zone – Wellness Spa</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&amp;family=Jost:wght@300;400;500;600&amp;display=swap"
+    rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gold: '#B8962E',
+            'gold-light': '#D4AF5A',
+            'gold-dark': '#8B6E1A',
+            cream: '#F5F0E8',
+            'cream-dark': '#EDE6D9',
+            'warm-gray': '#C5BEB0',
+            charcoal: '#3A3530',
+          },
+          fontFamily: {
+            display: ['Cormorant Garamond', 'serif'],
+            body: ['Jost', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /*
+      ─────────────────────────────────────────────────────────────────────
+      PILATES ZONE — LOGO & RESPONSIVE STYLE GUIDE (IMPLEMENTATION NOTES)
+      ─────────────────────────────────────────────────────────────────────
+      Logo placement:
+      - Primary: Fixed top navigation, left-aligned, paired with brand wordmark text.
+      - Secondary: Hero visual mark (desktop/tablet) to reinforce identity without SVG.
+
+      Asset formats:
+      - Preferred: pilates-zone-logo.webp (lossless)
+      - Fallback: pilates-zone-logo.png (lossless optimized)
+      - Delivery: <picture> with WebP <source> and PNG <img> fallback.
+
+      Accessibility:
+      - Alt text must describe the brand identity and visual mark, not only the name.
+      - Keep logo images decorative only if duplicated with adjacent text; here it is informative.
+
+      Responsive breakpoints (media queries):
+      - Desktop: > 1024px
+      - Tablet:  768px – 1024px
+      - Mobile:  < 768px (with additional tuning at 480px)
+
+      Logo sizing:
+      - Desktop default: 56px width
+      - <= 1024px: 52px width
+      - <= 768px:  46px width
+      - <= 480px:  42px width
+    */
+
+    /* ── CSS Variables ── */
+    :root {
+      --gold: #B8962E;
+      --gold-light: #D4AF5A;
+      --cream: #F5F0E8;
+      --cream-dark: #EDE6D9;
+      --charcoal: #3A3530;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--cream);
+      color: var(--charcoal);
+      font-family: 'Jost', sans-serif;
+    }
+
+    /* ── Background wave decoration ── */
+    .wave-bg {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .wave-bg::before,
+    .wave-bg::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.10;
+      background: var(--gold);
+    }
+
+    .wave-bg::before {
+      width: 70vw;
+      height: 70vw;
+      top: -20vw;
+      left: -15vw;
+    }
+
+    .wave-bg::after {
+      width: 50vw;
+      height: 50vw;
+      bottom: -10vw;
+      right: -10vw;
+    }
+
+    /* ── Gold divider ── */
+    .gold-line {
+      width: 48px;
+      height: 2px;
+      background: var(--gold);
+    }
+
+    /* ── Buttons ── */
+    .btn-gold {
+      background: var(--gold);
+      color: #fff;
+      font-family: 'Jost', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      padding: 14px 32px;
+      border-radius: 2px;
+      transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+    }
+
+    .btn-gold:hover {
+      background: #9a7c22;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(184, 150, 46, 0.28);
+    }
+
+    .btn-outline {
+      border: 1.5px solid var(--gold);
+      color: var(--gold);
+      font-family: 'Jost', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      padding: 13px 32px;
+      border-radius: 2px;
+      transition: background 0.3s, color 0.3s, transform 0.2s;
+    }
+
+    .btn-outline:hover {
+      background: var(--gold);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      transition: background 0.4s, box-shadow 0.4s;
+    }
+
+    nav.scrolled {
+      background: rgba(245, 240, 232, 0.96);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 2px 20px rgba(58, 53, 48, 0.08);
+    }
+
+    /* ── Brand logo (responsive) ── */
+    .brand-logo {
+      max-width: 100%;
+      height: auto;
+      width: 56px;
+      display: block;
+    }
+
+    @media (max-width: 1024px) {
+      .brand-logo {
+        width: 52px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .brand-logo {
+        width: 46px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .brand-logo {
+        width: 42px;
+      }
+    }
+
+    /* ── Hero brand mark container (no SVG) ── */
+    .hero-mark-surface {
+      background: rgba(237, 230, 217, 0.6);
+      backdrop-filter: blur(6px);
+    }
+
+    /* ── Service cards ── */
+    .service-card {
+      border: 1px solid rgba(184, 150, 46, 0.2);
+      background: rgba(245, 240, 232, 0.7);
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+
+    .service-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 48px rgba(184, 150, 46, 0.12);
+    }
+
+    .service-icon {
+      width: 56px;
+      height: 56px;
+      border: 1.5px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-size: 1.4rem;
+    }
+
+    /* ── Gallery ── */
+    .gallery-item {
+      overflow: hidden;
+      border-radius: 6px;
+      box-shadow: 0 4px 20px rgba(58, 53, 48, 0.08);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.06);
+    }
+
+    /* ── Testimonial ── */
+    .testimonial-card {
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(184, 150, 46, 0.15);
+      border-radius: 6px;
+    }
+
+    /* ── Fade-in on scroll ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes scrollPulse {
+
+      0%,
+      100% {
+        opacity: 0.4;
+        transform: scaleY(1)
+      }
+
+      50% {
+        opacity: 1;
+        transform: scaleY(1.3)
+      }
+    }
+
+    /* ── Section label ── */
+    .section-label {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    /* ── Hero headline ── */
+    .hero-h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      line-height: 1.1;
+      color: #3A3530;
+    }
+
+    /* ── Section heading ── */
+    .sec-h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      line-height: 1.15;
+      color: #3A3530;
+    }
+
+    /* ── WhatsApp ── */
+    .wa-btn {
+      background: #25D366;
+      color: #fff;
+      font-family: 'Jost', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      padding: 14px 28px;
+      border-radius: 2px;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .wa-btn:hover {
+      background: #128C7E;
+      transform: translateY(-2px);
+    }
+
+    /* ── Input ── */
+    .form-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(184, 150, 46, 0.25);
+      border-radius: 2px;
+      padding: 12px 16px;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.9rem;
+      color: #3A3530;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .form-input:focus {
+      border-color: var(--gold);
+    }
+
+    .form-input::placeholder {
+      color: #9C937F;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: #2A2520;
+      color: #C5BEB0;
+    }
+
+    /* ── Hamburger ── */
+    #mobile-menu {
+      display: none;
+    }
+
+    #mobile-menu.open {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════
+     NAVIGATION
+═══════════════════════════════════════ -->
+  <nav id="navbar" class="py-4 px-6 md:px-12">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+
+      <!-- Official brand logo + wordmark -->
+      <a href="#home" class="flex items-center gap-4 leading-none">
+        <picture class="shrink-0">
+          <source srcset="pilates-zone-logo.webp" type="image/webp" />
+          <img src="pilates-zone-logo.png" class="brand-logo" loading="lazy"
+            alt="Pilates Zone Wellness Spa logo: a gold circular emblem featuring a Pilates V‑pose silhouette above a curved base, expressing strength, balance, and luxury wellbeing." />
+        </picture>
+        <span class="flex flex-col">
+          <span class="font-display text-xl font-semibold tracking-wide" style="color:var(--gold)">PILATES ZONE</span>
+          <span class="font-body text-[0.6rem] tracking-[0.22em] uppercase" style="color:var(--charcoal)">Wellness
+            Spa</span>
+        </span>
+      </a>
+
+      <!-- Desktop nav -->
+      <ul class="hidden md:flex items-center gap-8 font-body text-xs tracking-widest uppercase text-charcoal">
+        <li><a href="#about" class="hover:text-gold transition-colors">About</a></li>
+        <li><a href="#services" class="hover:text-gold transition-colors">Services</a></li>
+        <li><a href="#gallery" class="hover:text-gold transition-colors">Gallery</a></li>
+        <li><a href="#testimonials" class="hover:text-gold transition-colors">Reviews</a></li>
+        <li><a href="#contact" class="hover:text-gold transition-colors">Contact</a></li>
+        <li><a href="#contact" class="btn-gold">Book Now</a></li>
+      </ul>
+
+      <!-- Mobile hamburger -->
+      <button id="hamburger" class="md:hidden flex flex-col gap-1.5 p-2" aria-label="Toggle menu">
+        <span class="block w-6 h-0.5 bg-charcoal transition-all"></span>
+        <span class="block w-6 h-0.5 bg-charcoal transition-all"></span>
+        <span class="block w-6 h-0.5 bg-charcoal transition-all"></span>
+      </button>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="md:hidden bg-cream border-t border-cream-dark mt-3">
+      <ul class="flex flex-col py-4 px-6 gap-4 font-body text-xs tracking-widest uppercase text-charcoal">
+        <li><a href="#about" class="hover:text-gold transition-colors block py-1">About</a></li>
+        <li><a href="#services" class="hover:text-gold transition-colors block py-1">Services</a></li>
+        <li><a href="#gallery" class="hover:text-gold transition-colors block py-1">Gallery</a></li>
+        <li><a href="#testimonials" class="hover:text-gold transition-colors block py-1">Reviews</a></li>
+        <li><a href="#contact" class="hover:text-gold transition-colors block py-1">Contact</a></li>
+        <li><a href="#contact" class="btn-gold inline-block mt-2">Book Now</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <!-- ═══════════════════════════════════════
+     HERO
+═══════════════════════════════════════ -->
+  <section id="home" class="relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden">
+    <div class="wave-bg"></div>
+
+    <!-- Decorative vertical text -->
+    <div
+      class="hidden lg:flex absolute right-8 top-1/2 -translate-y-1/2 flex-col items-center gap-3 opacity-30 select-none">
+      <div style="width:1px;height:80px;background:var(--gold)"></div>
+      <span class="font-body text-[0.55rem] tracking-[0.3em] uppercase vertical-text"
+        style="writing-mode:vertical-rl;color:var(--gold);letter-spacing:0.25em">Wellness · Strength · Balance</span>
+      <div style="width:1px;height:80px;background:var(--gold)"></div>
+    </div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-6 md:px-12 grid md:grid-cols-2 gap-16 items-center">
+
+      <!-- Text -->
+      <div>
+        <div class="flex items-center gap-3 mb-6">
+          <div class="gold-line"></div>
+          <span class="section-label">Wellness Spa</span>
+        </div>
+
+        <h1 class="hero-h1 text-5xl md:text-6xl lg:text-7xl mb-6">
+          Transform<br />
+          <em class="not-italic" style="color:var(--gold)">Your Body</em><br />
+          with Pilates<br />
+          &amp; Spa Recovery
+        </h1>
+
+        <p class="font-body text-sm leading-relaxed text-charcoal/70 max-w-md mb-10">
+          Build strength and control through Pilates, then unwind with calming spa rituals that support recovery,
+          mobility, and a balanced lifestyle.
+        </p>
+
+        <div class="flex flex-wrap gap-4">
+          <a href="#contact" class="btn-gold">Book Your First Class</a>
+          <a href="#contact" class="btn-outline">Get Free Consultation</a>
+        </div>
+
+        <!-- Stats -->
+        <div class="flex gap-10 mt-14">
+          <div>
+            <p class="font-display text-4xl font-semibold" style="color:var(--gold)">500+</p>
+            <p class="font-body text-[0.7rem] uppercase tracking-widest mt-1 text-charcoal/60">Happy Clients</p>
+          </div>
+          <div style="width:1px;background:rgba(184,150,46,0.2)"></div>
+          <div>
+            <p class="font-display text-4xl font-semibold" style="color:var(--gold)">8+</p>
+            <p class="font-body text-[0.7rem] uppercase tracking-widest mt-1 text-charcoal/60">Years of Excellence</p>
+          </div>
+          <div style="width:1px;background:rgba(184,150,46,0.2)"></div>
+          <div>
+            <p class="font-display text-4xl font-semibold" style="color:var(--gold)">20+</p>
+            <p class="font-body text-[0.7rem] uppercase tracking-widest mt-1 text-charcoal/60">Programs</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Logo / visual -->
+      <div class="hidden md:flex justify-center items-center">
+        <div class="relative">
+          <!-- Outer ring decoration -->
+          <div class="absolute inset-0 rounded-full border border-gold/20 scale-110"></div>
+          <div class="absolute inset-0 rounded-full border border-gold/10 scale-125"></div>
+          <!-- Soft glow -->
+          <div class="absolute inset-0 rounded-full"
+            style="background:radial-gradient(circle,rgba(184,150,46,0.12) 0%,transparent 70%)"></div>
+
+          <div class="relative rounded-full p-12 hero-mark-surface">
+            <picture class="block">
+              <source srcset="pilates-zone-logo.webp" type="image/webp" />
+              <img src="pilates-zone-logo.png" class="block" loading="lazy"
+                alt="Pilates Zone Wellness Spa emblem in gold, showing a Pilates V‑pose silhouette inside a circular ring."
+                style="max-width:100%;height:auto;width:220px" />
+            </picture>
+          </div>
+
+          <!-- Floating label -->
+          <div
+            class="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-gold text-white font-body text-[0.62rem] tracking-[0.2em] uppercase px-5 py-2 whitespace-nowrap">
+            Luxury Care For Body &amp; Mind
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll cue -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
+      <span class="font-body text-[0.6rem] tracking-[0.2em] uppercase" style="color:var(--charcoal)">Scroll</span>
+      <div style="width:1px;height:40px;background:var(--gold);animation:scrollPulse 2s ease-in-out infinite"></div>
+    </div>
+
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+     ABOUT
+═══════════════════════════════════════ -->
+  <section id="about" class="py-24 px-6 md:px-12" style="background:var(--cream-dark)">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+
+      <!-- Left visual block -->
+      <div class="fade-up relative">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="rounded overflow-hidden shadow-md" style="height:280px">
+            <img src="logan-weaver-lgnwvr-u76Gd0hP5w4-unsplash.jpg" alt="Pilates studio"
+              class="w-full h-full object-cover" />
+          </div>
+          <div class="flex flex-col gap-4">
+            <div class="rounded overflow-hidden shadow-md flex-1">
+              <img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=600&amp;q=80"
+                alt="Reformer Pilates" class="w-full h-full object-cover" />
+            </div>
+            <div class="rounded overflow-hidden shadow-md flex-1">
+              <img src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=600&amp;q=80"
+                alt="Trainer guiding client" class="w-full h-full object-cover" />
+            </div>
+          </div>
+        </div>
+        <!-- Gold accent box -->
+        <div class="absolute -bottom-6 -left-4 bg-gold text-white p-5 shadow-xl hidden md:block">
+          <p class="font-display text-3xl font-light">8+</p>
+          <p class="font-body text-[0.65rem] tracking-widest uppercase mt-1">Years of<br />Excellence</p>
+        </div>
+      </div>
+
+      <!-- Right text -->
+      <div class="fade-up">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="gold-line"></div>
+          <span class="section-label">About Us</span>
+        </div>
+        <h2 class="sec-h2 text-4xl md:text-5xl mb-6">
+          A Space Built for<br /><em class="not-italic" style="color:var(--gold)">Your Wellbeing</em>
+        </h2>
+        <p class="font-body text-sm leading-relaxed text-charcoal/70 mb-5">
+          At <strong>Pilates Zone</strong> Wellness Spa, we pair Pilates training with spa-grade relaxation so you can
+          build strength and recover deeply. Our team focuses on personalized attention, helping every session feel
+          safe, effective, and results-driven.
+        </p>
+        <p class="font-body text-sm leading-relaxed text-charcoal/70 mb-8">
+          Whether you're a beginner or experienced, you’ll find a supportive environment for your wellness journey —
+          from core-focused Pilates to calming spa rituals that reduce stress and restore balance.
+        </p>
+
+        <!-- Why choose us bullets -->
+        <ul class="space-y-3 mb-10">
+          <li class="flex items-center gap-3 font-body text-sm text-charcoal/80">
+            <span class="text-gold text-base">✦</span> Certified &amp; experienced trainers
+          </li>
+          <li class="flex items-center gap-3 font-body text-sm text-charcoal/80">
+            <span class="text-gold text-base">✦</span> Personalized attention every session
+          </li>
+          <li class="flex items-center gap-3 font-body text-sm text-charcoal/80">
+            <span class="text-gold text-base">✦</span> Clean studio and calming spa ambience
+          </li>
+          <li class="flex items-center gap-3 font-body text-sm text-charcoal/80">
+            <span class="text-gold text-base">✦</span> Proven results &amp; happy clients
+          </li>
+          <li class="flex items-center gap-3 font-body text-sm text-charcoal/80">
+            <span class="text-gold text-base">✦</span> Flexible timings for training and treatments
+          </li>
+        </ul>
+
+        <a href="#contact" class="btn-gold inline-block">Book a Free Consultation</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+     SERVICES
+═══════════════════════════════════════ -->
+  <section id="services" class="py-24 px-6 md:px-12" style="background:var(--cream)">
+    <div class="max-w-6xl mx-auto">
+
+      <div class="text-center mb-16 fade-up">
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <div class="gold-line"></div>
+          <span class="section-label">What We Offer</span>
+          <div class="gold-line"></div>
+        </div>
+        <h2 class="sec-h2 text-4xl md:text-5xl">Pilates &amp; <em class="not-italic" style="color:var(--gold)">Spa
+            Services</em></h2>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <!-- Service 1 -->
+        <div class="service-card rounded p-8 fade-up">
+          <div class="service-icon mb-6">
+            <span aria-hidden="true">✓</span>
+          </div>
+          <p class="section-label mb-3">01</p>
+          <h3 class="font-display text-xl font-medium mb-3" style="color:var(--charcoal)">Beginner Pilates</h3>
+          <p class="font-body text-xs leading-relaxed text-charcoal/60">Start your fitness journey with guided
+            foundational sessions designed to build core awareness and confidence.</p>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="service-card rounded p-8 fade-up" style="transition-delay:0.1s">
+          <div class="service-icon mb-6">
+            <span aria-hidden="true">⚡</span>
+          </div>
+          <p class="section-label mb-3">02</p>
+          <h3 class="font-display text-xl font-medium mb-3" style="color:var(--charcoal)">Advanced Pilates</h3>
+          <p class="font-body text-xs leading-relaxed text-charcoal/60">Challenge your strength, flexibility, and
+            control with precision movements and progressive training techniques.</p>
+        </div>
+
+        <!-- Service 3 -->
+        <div class="service-card rounded p-8 fade-up" style="transition-delay:0.2s">
+          <div class="service-icon mb-6">
+            <span aria-hidden="true">◎</span>
+          </div>
+          <p class="section-label mb-3">03</p>
+          <h3 class="font-display text-xl font-medium mb-3" style="color:var(--charcoal)">Deep Tissue Recovery</h3>
+          <p class="font-body text-xs leading-relaxed text-charcoal/60">Targeted massage and recovery therapy to ease
+            tension, support flexibility, and help your body reset between training sessions.</p>
+        </div>
+
+        <!-- Service 4 -->
+        <div class="service-card rounded p-8 fade-up" style="transition-delay:0.3s">
+          <div class="service-icon mb-6">
+            <span aria-hidden="true">✦</span>
+          </div>
+          <p class="section-label mb-3">04</p>
+          <h3 class="font-display text-xl font-medium mb-3" style="color:var(--charcoal)">Aromatherapy Rituals</h3>
+          <p class="font-body text-xs leading-relaxed text-charcoal/60">A calming spa experience with aroma oils and
+            gentle techniques designed to reduce stress, improve sleep, and restore energy.</p>
+        </div>
+      </div>
+
+      <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="service-card rounded p-8 fade-up">
+          <div class="service-icon mb-6"><span aria-hidden="true">⌁</span></div>
+          <p class="section-label mb-3">05</p>
+          <h3 class="font-display text-xl font-medium mb-3" style="color:var(--charcoal)">Reformer Pilates</h3>
+          <p class="font-body text-xs leading-relaxed text-charcoal/60">Precision-based training for core strength,
+            posture, and full-body alignment using guided reformer sessions.</p>
+        </div>
+
+        <div class="service-card rounded p-8 fade-up" style="transition-delay:0.1s">
+          <div class="service-icon mb-6"><span aria-hidden="true">➰</span></div>
+          <p class="section-label mb-3">06</p>
+          <h3 class="font-display text-xl font-medium mb-3" style="color:var(--charcoal)">Mobility &amp; Stretch</h3>
+          <p class="font-body text-xs leading-relaxed text-charcoal/60">Gentle Pilates flow focused on mobility, breath,
+            and flexibility to keep your joints feeling open and easy.</p>
+        </div>
+
+        <div class="service-card rounded p-8 fade-up" style="transition-delay:0.2s">
+          <div class="service-icon mb-6"><span aria-hidden="true">☁</span></div>
+          <p class="section-label mb-3">07</p>
+          <h3 class="font-display text-xl font-medium mb-3" style="color:var(--charcoal)">Steam &amp; Detox</h3>
+          <p class="font-body text-xs leading-relaxed text-charcoal/60">A spa-style steam session to promote relaxation,
+            support circulation, and help your body recover after workouts.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+     GALLERY
+═══════════════════════════════════════ -->
+  <section id="gallery" class="py-24 px-6 md:px-12" style="background:var(--cream-dark)">
+    <div class="max-w-6xl mx-auto">
+
+      <div class="text-center mb-16 fade-up">
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <div class="gold-line"></div>
+          <span class="section-label">Inside Our Studio</span>
+          <div class="gold-line"></div>
+        </div>
+        <h2 class="sec-h2 text-4xl md:text-5xl mb-3">Our <em class="not-italic" style="color:var(--gold)">Space</em>
+        </h2>
+        <p class="font-body text-sm text-charcoal/60 max-w-lg mx-auto">Explore our Pilates studio and spa-inspired
+          spaces designed for movement, recovery, and relaxation.</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 fade-up">
+        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=700&amp;q=80"
+            alt="Reformer Pilates machine" /></div>
+        <div class="gallery-item sm:row-span-2"><img
+            src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=700&amp;q=80" alt="Studio interior"
+            style="height:100%;min-height:260px" /></div>
+        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&amp;q=80"
+            alt="Trainer with client" /></div>
+        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=700&amp;q=80"
+            alt="Pilates mat class" /></div>
+        <div class="gallery-item"><img src="https://images.unsplash.com/photo-1552196563-55cd4e45efb3?w=700&amp;q=80"
+            alt="Wellness and relaxation" /></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+     TESTIMONIALS
+═══════════════════════════════════════ -->
+  <section id="testimonials" class="py-24 px-6 md:px-12" style="background:var(--cream)">
+    <div class="max-w-5xl mx-auto">
+
+      <div class="text-center mb-16 fade-up">
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <div class="gold-line"></div>
+          <span class="section-label">Client Stories</span>
+          <div class="gold-line"></div>
+        </div>
+        <h2 class="sec-h2 text-4xl md:text-5xl">What Our Clients <em class="not-italic"
+            style="color:var(--gold)">Say</em></h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+
+        <div class="testimonial-card p-8 fade-up">
+          <div class="flex gap-1 mb-5">
+            <span class="text-gold text-sm">★★★★★</span>
+          </div>
+          <p class="font-display text-xl font-light italic leading-relaxed text-charcoal/80 mb-6">
+            "I've never felt stronger and more confident. The trainers are absolutely amazing — they truly understand
+            your body and push you in the right way."
+          </p>
+          <div class="flex items-center gap-3">
+            <div
+              class="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center font-display text-lg font-medium"
+              style="color:var(--gold)">P</div>
+            <div>
+              <p class="font-body text-sm font-medium text-charcoal">Priya S.</p>
+              <p class="font-body text-[0.65rem] tracking-widest uppercase text-charcoal/50 mt-0.5">Member since 2022
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card p-8 fade-up" style="transition-delay:0.15s">
+          <div class="flex gap-1 mb-5">
+            <span class="text-gold text-sm">★★★★★</span>
+          </div>
+          <p class="font-display text-xl font-light italic leading-relaxed text-charcoal/80 mb-6">
+            "Perfect place for beginners. The environment is so supportive and professional. I came in anxious and left
+            feeling completely at home."
+          </p>
+          <div class="flex items-center gap-3">
+            <div
+              class="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center font-display text-lg font-medium"
+              style="color:var(--gold)">A</div>
+            <div>
+              <p class="font-body text-sm font-medium text-charcoal">Anjali R.</p>
+              <p class="font-body text-[0.65rem] tracking-widest uppercase text-charcoal/50 mt-0.5">Beginner Member</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card p-8 fade-up" style="transition-delay:0.3s">
+          <div class="flex gap-1 mb-5">
+            <span class="text-gold text-sm">★★★★★</span>
+          </div>
+          <p class="font-display text-xl font-light italic leading-relaxed text-charcoal/80 mb-6">
+            "My posture has improved dramatically after just 3 months. The rehab program is thoughtfully designed and
+            genuinely works."
+          </p>
+          <div class="flex items-center gap-3">
+            <div
+              class="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center font-display text-lg font-medium"
+              style="color:var(--gold)">S</div>
+            <div>
+              <p class="font-body text-sm font-medium text-charcoal">Sneha M.</p>
+              <p class="font-body text-[0.65rem] tracking-widest uppercase text-charcoal/50 mt-0.5">Rehab Program</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card p-8 fade-up" style="transition-delay:0.45s">
+          <div class="flex gap-1 mb-5">
+            <span class="text-gold text-sm">★★★★★</span>
+          </div>
+          <p class="font-display text-xl font-light italic leading-relaxed text-charcoal/80 mb-6">
+            "The personal training sessions are worth every penny. My trainer knows exactly how to challenge me without
+            overdoing it. Love this studio!"
+          </p>
+          <div class="flex items-center gap-3">
+            <div
+              class="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center font-display text-lg font-medium"
+              style="color:var(--gold)">R</div>
+            <div>
+              <p class="font-body text-sm font-medium text-charcoal">Riya K.</p>
+              <p class="font-body text-[0.65rem] tracking-widest uppercase text-charcoal/50 mt-0.5">Personal Training
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+     CTA BANNER
+═══════════════════════════════════════ -->
+  <section class="py-24 px-6 md:px-12 relative overflow-hidden" style="background:#2A2520">
+    <div class="absolute inset-0 opacity-5"
+      style="background:repeating-linear-gradient(45deg,#B8962E,#B8962E 1px,transparent 1px,transparent 12px)"></div>
+    <div class="relative z-10 max-w-3xl mx-auto text-center fade-up">
+      <div class="flex items-center justify-center gap-3 mb-6">
+        <div class="gold-line"></div>
+        <span class="section-label">Get Started Today</span>
+        <div class="gold-line"></div>
+      </div>
+      <h2 class="font-display text-4xl md:text-5xl font-light text-white mb-5">
+        Ready to Start Your<br /><em class="not-italic" style="color:var(--gold-light)">Wellness Journey?</em>
+      </h2>
+      <p class="font-body text-sm text-white/60 mb-10 max-w-md mx-auto">
+        Book your first visit and experience the difference of Pilates training supported by spa recovery and relaxation
+        rituals.
+      </p>
+      <a href="#contact" class="btn-gold">Book Now</a>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+     CONTACT
+═══════════════════════════════════════ -->
+  <section id="contact" class="py-24 px-6 md:px-12" style="background:var(--cream-dark)">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-start">
+
+      <!-- Left info -->
+      <div class="fade-up">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="gold-line"></div>
+          <span class="section-label">Get In Touch</span>
+        </div>
+        <h2 class="sec-h2 text-4xl md:text-5xl mb-6">
+          Let's Start Your<br /><em class="not-italic" style="color:var(--gold)">Journey Together</em>
+        </h2>
+        <p class="font-body text-sm leading-relaxed text-charcoal/70 mb-10">
+          Fill in the form and our team will reach out within 24 hours to schedule your complimentary consultation for
+          Pilates, spa therapies, or a combined wellness plan.
+        </p>
+
+        <!-- Contact details -->
+        <div class="space-y-5">
+          <div class="flex items-center gap-4">
+            <div class="service-icon flex-shrink-0" style="width:44px;height:44px;font-size:1rem">
+              <span aria-hidden="true">☎</span>
+            </div>
+            <div>
+              <p class="font-body text-[0.65rem] uppercase tracking-widest text-charcoal/50 mb-0.5">Phone</p>
+              <p class="font-body text-sm text-charcoal">+91 98XXX XXXXX</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="service-icon flex-shrink-0" style="width:44px;height:44px;font-size:1rem">
+              <span aria-hidden="true">✉</span>
+            </div>
+            <div>
+              <p class="font-body text-[0.65rem] uppercase tracking-widest text-charcoal/50 mb-0.5">Email</p>
+              <p class="font-body text-sm text-charcoal">hello@pilateszone.com</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="service-icon flex-shrink-0" style="width:44px;height:44px;font-size:1rem">
+              <span aria-hidden="true">⌂</span>
+            </div>
+            <div>
+              <p class="font-body text-[0.65rem] uppercase tracking-widest text-charcoal/50 mb-0.5">Location</p>
+              <p class="font-body text-sm text-charcoal">Your City, India</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- WhatsApp -->
+        <div class="mt-10">
+          <a href="https://wa.me/919800000000" target="_blank" class="wa-btn inline-flex items-center gap-3">
+            <span aria-hidden="true">WA</span>
+            Chat on WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="fade-up" style="transition-delay:0.15s">
+        <div class="bg-white/60 rounded p-8 shadow-sm border border-gold/10">
+          <h3 class="font-display text-2xl mb-6" style="color:var(--charcoal)">Send Us a Message</h3>
+          <form id="contactForm" class="space-y-4">
+            <div>
+              <label class="font-body text-[0.65rem] uppercase tracking-widest text-charcoal/50 block mb-2">Your
+                Name</label>
+              <input type="text" placeholder="Enter your full name" class="form-input" required />
+            </div>
+            <div>
+              <label class="font-body text-[0.65rem] uppercase tracking-widest text-charcoal/50 block mb-2">Phone
+                Number</label>
+              <input type="tel" placeholder="+91 98XXX XXXXX" class="form-input" required />
+            </div>
+            <div>
+              <label class="font-body text-[0.65rem] uppercase tracking-widest text-charcoal/50 block mb-2">Email
+                Address</label>
+              <input type="email" placeholder="your@email.com" class="form-input" required />
+            </div>
+            <div>
+              <label
+                class="font-body text-[0.65rem] uppercase tracking-widest text-charcoal/50 block mb-2">Message</label>
+              <textarea rows="4" placeholder="Tell us about your goals or any questions you have..."
+                class="form-input resize-none" required></textarea>
+            </div>
+            <button type="submit" class="btn-gold w-full mt-2 block text-center">Send Message</button>
+
+            <!-- Success Message Container (Hidden by default) -->
+            <div id="successMessage"
+              class="hidden bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded text-sm mt-4 flex items-center gap-2">
+              <span>✅ Thank you! Your message has been sent successfully.</span>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════ -->
+  <footer class="py-12 px-6 md:px-12">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid md:grid-cols-3 gap-10 mb-10">
+
+        <div>
+          <p class="font-display text-xl font-semibold tracking-wide mb-1" style="color:var(--gold)">PILATES ZONE</p>
+          <p class="font-body text-[0.6rem] tracking-[0.2em] uppercase text-warm-gray/60 mb-4">Wellness Spa</p>
+          <p class="font-body text-xs leading-relaxed" style="color:#8A837A">Luxury care for your body &amp; mind.
+            Helping you move better, feel stronger, and live healthier.</p>
+        </div>
+
+        <div>
+          <p class="font-body text-[0.65rem] uppercase tracking-widest mb-4" style="color:var(--gold)">Quick Links</p>
+          <ul class="space-y-2 font-body text-xs" style="color:#8A837A">
+            <li><a href="#about" class="hover:text-gold-light transition-colors">About Us</a></li>
+            <li><a href="#services" class="hover:text-gold-light transition-colors">Services</a></li>
+            <li><a href="#gallery" class="hover:text-gold-light transition-colors">Gallery</a></li>
+            <li><a href="#contact" class="hover:text-gold-light transition-colors">Contact</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="font-body text-[0.65rem] uppercase tracking-widest mb-4" style="color:var(--gold)">Studio Hours</p>
+          <ul class="space-y-2 font-body text-xs" style="color:#8A837A">
+            <li class="flex justify-between"><span>Monday – Friday</span><span>6:00 AM – 9:00 PM</span></li>
+            <li class="flex justify-between"><span>Saturday</span><span>7:00 AM – 6:00 PM</span></li>
+            <li class="flex justify-between"><span>Sunday</span><span>8:00 AM – 2:00 PM</span></li>
+          </ul>
+          <div class="flex gap-4 mt-6">
+            <a href="#"
+              class="font-body text-[0.6rem] tracking-widest uppercase hover:text-gold-light transition-colors"
+              style="color:#8A837A">Instagram</a>
+            <a href="#"
+              class="font-body text-[0.6rem] tracking-widest uppercase hover:text-gold-light transition-colors"
+              style="color:#8A837A">Facebook</a>
+            <a href="#"
+              class="font-body text-[0.6rem] tracking-widest uppercase hover:text-gold-light transition-colors"
+              style="color:#8A837A">@pilateszone</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+        <p class="font-body text-[0.65rem] tracking-wide" style="color:#5A534E">© 2025 Pilates Zone Wellness Spa. All
+          rights reserved.</p>
+        <p class="font-body text-[0.65rem] tracking-wide" style="color:#5A534E">Luxury Care For Your Body &amp; Mind</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ═══════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════ -->
+  <script>
+    // ── Sticky nav ──
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // ── Mobile menu ──
+    document.getElementById('hamburger').addEventListener('click', () => {
+      document.getElementById('mobile-menu').classList.toggle('open');
+    });
+    // Close mobile menu on link click
+    document.querySelectorAll('#mobile-menu a').forEach(link => {
+      link.addEventListener('click', () => document.getElementById('mobile-menu').classList.remove('open'));
+    });
+
+    // ── Fade-in on scroll ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // ── Form Handling ──
+    const contactForm = document.getElementById('contactForm');
+    const successMessage = document.getElementById('successMessage');
+
+    if (contactForm) {
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault(); // Prevent page reload
+
+        // 1. Clear all input fields
+        contactForm.reset();
+
+        // 2. Prepare the success message for smooth appearance
+        successMessage.classList.remove('hidden');
+        successMessage.style.opacity = '0';
+        successMessage.style.transition = 'opacity 0.5s ease-in-out';
+
+        // 3. Trigger the fade-in effect
+        setTimeout(() => {
+          successMessage.style.opacity = '1';
+        }, 10);
+
+        // Optional: Hide message again after 5 seconds
+        setTimeout(() => {
+          successMessage.style.opacity = '0';
+          setTimeout(() => successMessage.classList.add('hidden'), 500);
+        }, 5000);
+      });
+    }
+  </script>
+
+</body>
+
+</html>

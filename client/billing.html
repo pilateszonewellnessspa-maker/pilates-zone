@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Billing History – Pilates Zone Wellness Spa</title>
+  <meta name="description" content="View your Pilates Zone payment history and download receipts." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gold: '#B8962E', 'gold-light': '#D4AF5A',
+            cream: '#F5F0E8', 'cream-dark': '#EDE6D9', 'warm-gray': '#C5BEB0', charcoal: '#3A3530',
+          },
+          fontFamily: { display: ['Cormorant Garamond', 'serif'], body: ['Jost', 'sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    :root { --gold: #B8962E; --cream: #F5F0E8; --cream-dark: #EDE6D9; --charcoal: #3A3530; }
+    body { background-color: var(--cream); color: var(--charcoal); font-family: 'Jost', sans-serif; }
+
+    nav { background: rgba(245, 240, 232, 0.96); backdrop-filter: blur(8px); box-shadow: 0 2px 20px rgba(58,53,48,0.08); }
+    footer { background: #2A2520; color: #C5BEB0; }
+
+    .section-label { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); font-weight: 500; }
+    .gold-line { width: 48px; height: 2px; background: var(--gold); }
+
+    .btn-gold {
+      background: var(--gold); color: #fff; font-family: 'Jost', sans-serif; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.78rem; padding: 10px 22px;
+      border-radius: 2px; transition: background 0.3s, transform 0.2s; cursor: pointer; border: none;
+    }
+    .btn-gold:hover { background: #9a7c22; transform: translateY(-1px); }
+
+    .btn-outline {
+      border: 1.5px solid var(--gold); color: var(--gold); font-family: 'Jost', sans-serif; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.78rem; padding: 9px 22px;
+      border-radius: 2px; transition: background 0.3s, color 0.3s; background: transparent; cursor: pointer;
+    }
+    .btn-outline:hover { background: var(--gold); color: #fff; }
+
+    .btn-view {
+      background: rgba(184,150,46,0.1); border: 1px solid rgba(184,150,46,0.3); color: var(--gold);
+      font-family: 'Jost', sans-serif; font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 5px 12px; border-radius: 2px; cursor: pointer; transition: all 0.2s; text-decoration: none;
+      display: inline-block; white-space: nowrap;
+    }
+    .btn-view:hover { background: var(--gold); color: #fff; }
+
+    .card { background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(184,150,46,0.12); border-radius: 6px; }
+
+    .stat-card {
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(184,150,46,0.12);
+      border-radius: 6px;
+      padding: 24px 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: ''; position: absolute; bottom: 0; right: 0;
+      width: 80px; height: 80px; border-radius: 50%;
+      background: rgba(184,150,46,0.06);
+      transform: translate(30%, 30%);
+    }
+
+    .status-paid    { background: #d1fae5; color: #065f46; padding: 3px 10px; border-radius: 20px; font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; }
+    .status-manual  { background: #ede9fe; color: #4c1d95; padding: 3px 10px; border-radius: 20px; font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; }
+    .status-pending { background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 20px; font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; }
+
+    table { border-collapse: collapse; width: 100%; }
+    th { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); padding: 14px 16px; text-align: left; border-bottom: 1px solid rgba(184,150,46,0.15); white-space: nowrap; }
+    td { font-size: 0.85rem; color: var(--charcoal); padding: 14px 16px; border-bottom: 1px solid rgba(58,53,48,0.05); vertical-align: middle; }
+    tr:hover td { background: rgba(184,150,46,0.03); }
+
+    .skeleton { animation: skeleton-glow 1.5s ease-in-out infinite alternate; }
+    @keyframes skeleton-glow {
+      from { background: rgba(184,150,46,0.06); }
+      to   { background: rgba(184,150,46,0.14); }
+    }
+
+    /* ── Mobile hamburger menu ─────────────────────────── */
+    .mobile-menu {
+      display: none; position: absolute; top: 100%; right: 0; left: 0;
+      background: rgba(42,37,32,0.98); backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(184,150,46,0.15);
+      padding: 16px 24px; z-index: 99;
+    }
+    .mobile-menu.open { display: block; }
+    .mobile-menu a, .mobile-menu button {
+      display: block; width: 100%; text-align: left;
+      padding: 12px 0; border: none; background: none;
+      border-bottom: 1px solid rgba(184,150,46,0.08);
+      color: #F5F0E8; font-family: 'Jost',sans-serif;
+      font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase;
+      cursor: pointer; text-decoration: none; transition: color 0.2s;
+    }
+    .mobile-menu a:last-child, .mobile-menu button:last-child { border-bottom: none; }
+    .mobile-menu a:hover, .mobile-menu button:hover { color: #B8962E; }
+    .hamburger { display: none; cursor: pointer; padding: 6px; border: none; background: none; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: #B8962E; margin: 5px 0; transition: all 0.3s; }
+    @media (max-width: 768px) {
+      .hamburger { display: block; }
+      .desktop-nav { display: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav class="sticky top-0 z-50 py-4 px-6 md:px-12 relative">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <a href="dashboard.html" class="flex items-center gap-3 leading-none">
+        <img src="logo.png" alt="Pilates Zone Logo" style="width:40px;height:40px;object-fit:contain;flex-shrink:0;" />
+        <span class="flex flex-col">
+          <span class="font-display text-xl font-semibold tracking-wide" style="color:var(--gold)">PILATES ZONE</span>
+          <span class="font-body text-[0.6rem] tracking-[0.22em] uppercase" style="color:var(--charcoal)">Wellness Spa</span>
+        </span>
+      </a>
+            <!-- Desktop nav -->
+      <div class="desktop-nav flex items-center gap-4">
+        <a href="dashboard.html" class="font-body text-xs tracking-widest uppercase text-charcoal/60 hover:text-gold transition-colors hidden md:block">Dashboard</a>
+        <button onclick="logout()" class="btn-outline">Sign Out</button>
+      </div>
+      <!-- Hamburger -->
+      <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div id="mobileNav" class="mobile-menu">
+        <a href="dashboard.html">Dashboard</a>
+        <button onclick="closeMenu();logout()">Sign Out</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="max-w-6xl mx-auto px-6 md:px-12 py-12">
+
+    <!-- Heading -->
+    <div class="mb-10">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="gold-line"></div>
+        <span class="section-label">Billing</span>
+      </div>
+      <h1 class="font-display text-3xl md:text-5xl font-light">
+        Payment <em class="not-italic" style="color:var(--gold)">History</em>
+      </h1>
+      <p class="font-body text-sm text-charcoal/60 mt-2">All your membership payments and receipts</p>
+    </div>
+
+    <!-- ── Stats ───────────────────────────────────────── -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
+      <div class="stat-card">
+        <p class="section-label mb-2">Total Spent</p>
+        <p class="font-display text-3xl font-medium" style="color:var(--gold)" id="totalPaid">—</p>
+        <p class="font-body text-xs text-charcoal/40 mt-1">across all plans</p>
+      </div>
+      <div class="stat-card">
+        <p class="section-label mb-2">Transactions</p>
+        <p class="font-display text-3xl font-medium" style="color:var(--charcoal)" id="totalCount">—</p>
+        <p class="font-body text-xs text-charcoal/40 mt-1">payments on record</p>
+      </div>
+      <div class="stat-card">
+        <p class="section-label mb-2">Last Payment</p>
+        <p class="font-body text-base font-medium" style="color:var(--charcoal)" id="lastPayment">—</p>
+        <p class="font-body text-xs text-charcoal/40 mt-1">most recent</p>
+      </div>
+    </div>
+
+    <!-- ── Table ───────────────────────────────────────── -->
+    <div class="card overflow-hidden">
+      <div class="overflow-x-auto -mx-0">
+        <table>
+          <thead>
+            <tr>
+              <th>Invoice #</th>
+              <th>Date</th>
+              <th>Plan</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Receipt</th>
+            </tr>
+          </thead>
+          <tbody id="billingBody">
+            <tr>
+              <td colspan="6" class="text-center py-16">
+                <div class="flex flex-col items-center gap-3">
+                  <div class="skeleton h-4 w-48 rounded"></div>
+                  <div class="skeleton h-4 w-32 rounded"></div>
+                  <div class="skeleton h-4 w-40 rounded"></div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="py-10 px-6 text-center mt-8">
+    <p class="font-body text-[0.65rem] tracking-wide" style="color:#5A534E">© 2025 Pilates Zone Wellness Spa. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const API   = '/api';
+    const token = localStorage.getItem('pz_token');
+    const user  = JSON.parse(localStorage.getItem('pz_user') || 'null');
+
+    if (!token || !user) window.location.href = 'login.html';
+
+    function authHeader() {
+      return { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' };
+    }
+
+    function logout() {
+      localStorage.removeItem('pz_token');
+      localStorage.removeItem('pz_user');
+      window.location.href = 'login.html';
+    }
+
+    function statusBadge(status) {
+      const map = {
+        paid:    '<span class="status-paid">✦ Paid</span>',
+        manual:  '<span class="status-manual">Manual</span>',
+        success: '<span class="status-paid">✦ Paid</span>',
+        pending: '<span class="status-pending">Pending</span>',
+      };
+      return map[status] || `<span class="status-pending">${status}</span>`;
+    }
+
+    async function loadHistory() {
+      try {
+        const res  = await fetch(`${API}/receipts`, { headers: authHeader() });
+        const data = await res.json();
+        const tbody = document.getElementById('billingBody');
+
+        if (!data.success || data.receipts.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="6" class="text-center py-16">
+                <div class="flex flex-col items-center gap-3">
+                  <span class="text-4xl opacity-30">🧾</span>
+                  <p class="font-body text-sm text-charcoal/40">No payment records found.</p>
+                  <a href="dashboard.html" class="btn-view" style="margin-top:8px">Browse Plans →</a>
+                </div>
+              </td>
+            </tr>`;
+          return;
+        }
+
+        const receipts = data.receipts;
+
+        // Summary stats
+        const total = receipts.reduce((s, r) => s + r.amount, 0);
+        document.getElementById('totalPaid').textContent  = `₹${total.toLocaleString('en-IN')}`;
+        document.getElementById('totalCount').textContent = receipts.length;
+        document.getElementById('lastPayment').textContent = new Date(receipts[0].createdAt)
+          .toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+
+        tbody.innerHTML = receipts.map(r => `
+          <tr>
+            <td class="font-mono text-xs text-charcoal/60 tracking-wider">${r.invoiceNumber}</td>
+            <td class="text-charcoal/70">${new Date(r.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
+            <td class="font-medium">${r.planName}</td>
+            <td class="font-semibold" style="color:var(--gold)">₹${r.amount.toLocaleString('en-IN')}</td>
+            <td>${statusBadge(r.status)}</td>
+            <td>
+              <a href="receipt.html?id=${r._id}" class="btn-view">View Receipt</a>
+            </td>
+          </tr>
+        `).join('');
+
+      } catch (err) {
+        document.getElementById('billingBody').innerHTML =
+          '<tr><td colspan="6" class="text-center py-10 text-red-400 font-body text-sm">Could not load billing history.</td></tr>';
+      }
+    }
+
+    loadHistory();
+  </script>
+
+
+  <script>
+    function toggleMenu() { document.getElementById('mobileNav').classList.toggle('open'); }
+    function closeMenu()  { document.getElementById('mobileNav').classList.remove('open'); }
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('nav')) closeMenu();
+    });
+  </script>
+</body>
+
+</html>

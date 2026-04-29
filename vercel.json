@@ -1,18 +1,10 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "api/index.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    { "src": "/api/(.*)", "dest": "/api/index.js" },
-    { "handle": "filesystem" },
-    { "src": "/(.*\\.html)", "dest": "/client/$1" },
-    { "src": "/logo.png", "dest": "/client/logo.png" },
-    { "src": "/upi-qr.jpeg", "dest": "/client/upi-qr.jpeg" },
-    { "src": "/favicon.ico", "dest": "/client/favicon.ico" },
-    { "src": "/", "dest": "/index.html" }
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api" },
+    { "source": "/(.*\\.html)", "destination": "/client/$1" },
+    { "source": "/logo.png", "destination": "/client/logo.png" },
+    { "source": "/upi-qr.jpeg", "destination": "/client/upi-qr.jpeg" },
+    { "source": "/favicon.ico", "destination": "/client/favicon.ico" },
+    { "source": "/", "destination": "/index.html" }
   ]
 }

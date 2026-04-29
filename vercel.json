@@ -7,8 +7,8 @@
     { "src": "/api/(.*)", "dest": "/api/index.js" },
     { "src": "/client/(.*)", "dest": "/client/$1" },
     { "src": "/(.*\\.html)", "dest": "/client/$1" },
-    { "src": "/logo.png", "dest": "/client/logo.png" },
+    { "src": "/logo.png",    "dest": "/client/logo.png" },
     { "src": "/upi-qr.jpeg", "dest": "/client/upi-qr.jpeg" },
-    { "src": "/", "dest": "/client/index.html" }
+    { "src": "/",            "dest": "/index.html" }
   ]
 }

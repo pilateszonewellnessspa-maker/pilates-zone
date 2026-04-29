@@ -26,8 +26,9 @@ app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ─── Serve static client files (local dev only — Vercel serves them via CDN) ──
-app.use(express.static(path.join(__dirname, '../client')));
+// ─── Serve static files (local dev — Vercel serves these via CDN) ────────────
+app.use(express.static(path.join(__dirname, '..')));          // serves root index.html
+app.use('/client', express.static(path.join(__dirname, '../client')));  // serves client/*
 
 // ─── Routes ───────────────────────────────────────────────────
 app.use('/api/auth',     require('./routes/auth'));

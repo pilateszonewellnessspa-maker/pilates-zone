@@ -9,6 +9,6 @@
     { "src": "/(.*\\.html)", "dest": "/client/$1" },
     { "src": "/logo.png", "dest": "/client/logo.png" },
     { "src": "/upi-qr.jpeg", "dest": "/client/upi-qr.jpeg" },
-    { "src": "/", "dest": "/client/login.html" }
+    { "src": "/", "dest": "/client/index.html" }
   ]
 }
